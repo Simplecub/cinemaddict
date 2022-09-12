@@ -4,10 +4,8 @@ import AbstractStatefulView from '../framework/view/abstract-stateful-view';
 const Rate = ['Novice', 'Fan', 'Movie Buff'];
 
 const getProfileRating = (movies) => {
-  console.log(movies);
-  const profileRate = movies.map((movie)=> movie.userDetails.alreadyWatched ? 1 : 0).reduce((p, v) => v+p, 0)
+  const profileRate = movies.slice().map((movie)=> movie.userDetails.alreadyWatched ? 1 : 0).reduce((p, v) => v+p, 0)
   const rateName = (0 < profileRate && profileRate <= 10) ? Rate[0] : (10 < profileRate && profileRate <= 20) ? Rate[1] : profileRate > 20 ? Rate[2] : '';
-  console.log(profileRate);
   return (`
   <section class="header__profile profile">
     <p class="profile__rating">${rateName}</p>

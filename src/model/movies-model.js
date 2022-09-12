@@ -24,9 +24,7 @@ export default class MoviesModel extends Observable {
     try {
       this.#comments = await this.#moviesAPIService.comments;
       const movies = await this.#moviesAPIService.movies;
-      console.log(movies);
-      this.#movies = movies.map(this.#adaptToClient);
-      console.log(this.#movies);
+      return this.#movies = movies.map(this.#adaptToClient);
     } catch (err) {
       this.#movies = [];
     }
@@ -46,23 +44,19 @@ export default class MoviesModel extends Observable {
         },
         totalRating: movie['film_info']['total_rating']
       },
-      userDetails: {...movie['user_details'],
-      alreadyWatched: movie['user_details']['already_watched'],
-        watchingDate:  movie['user_details']['watching_date']
-
+      userDetails: {
+        ...movie['user_details'],
+        alreadyWatched: movie['user_details']['already_watched'],
+        watchingDate: movie['user_details']['watching_date']
       }
-
-
     };
     delete adaptedMovie['film_info'];
     delete adaptedMovie.filmInfo['age_rating'];
     delete adaptedMovie.filmInfo.release['release_country'];
-    delete adaptedMovie.filmInfo['total_rating']
-    delete adaptedMovie['user_details']
-    delete adaptedMovie.userDetails['already_watched']
-    delete adaptedMovie.userDetails['watching_date']
-    console.log(adaptedMovie);
+    delete adaptedMovie.filmInfo['total_rating'];
+    delete adaptedMovie['user_details'];
+    delete adaptedMovie.userDetails['already_watched'];
+    delete adaptedMovie.userDetails['watching_date'];
     return adaptedMovie;
   };
-
 }
