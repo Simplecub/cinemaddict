@@ -6,34 +6,63 @@ export default class MoviesModel extends Observable {
   #moviesAPIService = null;
   #movies = [];
   #comments = [];
+
   constructor(moviesApiService) {
     super();
-    this.#moviesAPIService = moviesApiService
+    this.#moviesAPIService = moviesApiService;
   }
+
   get movies() {
-    return this.#movies
+    return this.#movies;
   }
+
   get comments() {
-    return this.#comments
+    return this.#comments;
   }
 
   init = async () => {
     try {
-      this.#comments = this.#moviesAPIService.comments;
-      const movies = this.#moviesAPIService.movies;
-      this.#movies = movies.map(this.#adaptToClient)
+      this.#comments = await this.#moviesAPIService.comments;
+      const movies = await this.#moviesAPIService.movies;
+      console.log(movies);
+      this.#movies = movies.map(this.#adaptToClient);
+      console.log(this.#movies);
     } catch (err) {
-      this.#movies = []
+      this.#movies = [];
     }
-  }
+  };
 
   #adaptToClient = (movie) => {
-    const adaptedMovie = {...movie,
+    const adaptedMovie = {
+      ...movie,
+      comments: movie['comments'],
+      filmInfo: {
+        ...movie['film_info'],
+        ageRating: movie['film_info']['age_rating'],
+        alternativeTitle: movie['film_info']['alternative_title'],
+        release: {
+          ...movie['film_info']['release'],
+          releaseCountry: movie['film_info']['release']['release_country']
+        },
+        totalRating: movie['film_info']['total_rating']
+      },
+      userDetails: {...movie['user_details'],
+      alreadyWatched: movie['user_details']['already_watched'],
+        watchingDate:  movie['user_details']['watching_date']
+
+      }
 
 
-    }
-//delete
-  return adaptedMovie
-  }
+    };
+    delete adaptedMovie['film_info'];
+    delete adaptedMovie.filmInfo['age_rating'];
+    delete adaptedMovie.filmInfo.release['release_country'];
+    delete adaptedMovie.filmInfo['total_rating']
+    delete adaptedMovie['user_details']
+    delete adaptedMovie.userDetails['already_watched']
+    delete adaptedMovie.userDetails['watching_date']
+    console.log(adaptedMovie);
+    return adaptedMovie;
+  };
 
 }
