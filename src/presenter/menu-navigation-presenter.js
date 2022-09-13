@@ -1,6 +1,6 @@
 import MenuNavigationView from '../view/menu-navigation-view';
 import {render, RenderPosition} from '../framework/render';
-import {filter, FilterType} from '../const';
+import {filter, FilterType, UpdateType} from '../const';
 
 export default class MenuNavigationPresenter {
   #menuModel = null;
@@ -41,7 +41,12 @@ this.#menuContainer = siteMenu
 
    this.#menuTemplate = new MenuNavigationView(this.filters, this.#menuModel);
 render(this.#menuTemplate , this.#menuContainer, RenderPosition.BEFOREEND)
+    this.#menuTemplate.menuSelectHandler(this.#handleMenuChange)
   }
-
+#handleMenuChange = (filterType) => {
+    if (this.#menuModel.filter === filterType) {return}
+    if (filterType)
+    this.#menuModel.setFilter(UpdateType.MAJOR, filterType)
+}
 
 }
