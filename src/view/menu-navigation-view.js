@@ -36,7 +36,7 @@ export default class MenuNavigationView extends AbstractStatefulView {
     return getMenuTemplate(this.#filters, this.#currentFilter);
   }
 
-  menuSelectHandler(callback) {
+  menuSelectHandler= (callback) =>{
     this._callback.menuSelector = callback;
     this.element.addEventListener('click', this.#menuHandler);
   }
