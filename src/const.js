@@ -1,4 +1,3 @@
-
 const UpdateType = {
   PATCH: 'PATCH',
   MINOR: 'MINOR',
@@ -6,4 +5,17 @@ const UpdateType = {
   INIT: 'INIT'
 };
 
-export {UpdateType}
+const FilterType = {
+  ALL: 'all',
+  WATCHLIST: 'watchlist',
+  HISTORY: 'history',
+  FAVORITES: 'favorites'
+};
+
+const filter = {
+  [FilterType.ALL]: (movies) => movies,
+  [FilterType.WATCHLIST]: (movies) => movies.filter(item => item.userDetails.watchlist),
+  [FilterType.HISTORY]: (movies) => movies.filter(item => item.userDetails.alreadyWatched),
+  [FilterType.FAVORITES]: (movies) => movies.filter(item => item.userDetails.favorite)
+};
+export {UpdateType, FilterType, filter};
