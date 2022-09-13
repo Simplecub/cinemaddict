@@ -15,9 +15,9 @@ const getMenuTemplate = (filters, currentFilter) => {
   return (`
   <nav class="main-navigation">
     <a href="#all" class="main-navigation__item ${filter === 'all' ? 'main-navigation__item--active' : ''}" data-action="all">All movies (${filters.filter(i => i.type === 'all')[0].count})</a>
-    <a href="#watchlist" class="main-navigation__item ${filter === 'watchlist' ? 'main-navigation__item--active' : ''}" data-action="watchlist">Watchlist <span class="main-navigation__item-count">${filters.filter(i => i.type === 'watchlist')[0].count}</span></a>
-    <a href="#history" class="main-navigation__item ${filter === 'history' ? 'main-navigation__item--active' : ''}" data-action="history">History <span class="main-navigation__item-count">${filters.filter(i => i.type === 'history')[0].count}</span></a>
-    <a href="#favorites" class="main-navigation__item ${filter === 'favorites' ? 'main-navigation__item--active' : ''}" data-action="favorites">Favorites <span class="main-navigation__item-count">${filters.filter(i => i.type === 'favorites')[0].count}</span></a>
+    <a href="#watchlist" class="main-navigation__item ${filter === 'watchlist' ? 'main-navigation__item--active' : ''}" data-action="watchlist">Watchlist <span class="main-navigation__item-count" data-action="watchlist">${filters.filter(i => i.type === 'watchlist')[0].count}</span></a>
+    <a href="#history" class="main-navigation__item ${filter === 'history' ? 'main-navigation__item--active' : ''}" data-action="history">History <span class="main-navigation__item-count" data-action="history">${filters.filter(i => i.type === 'history')[0].count}</span></a>
+    <a href="#favorites" class="main-navigation__item ${filter === 'favorites' ? 'main-navigation__item--active' : ''}" data-action="favorites">Favorites <span class="main-navigation__item-count" data-action="favorites">${filters.filter(i => i.type === 'favorites')[0].count}</span></a>
   </nav>
   `);
 };
