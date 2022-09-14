@@ -1,5 +1,5 @@
 import MenuNavigationView from '../view/menu-navigation-view';
-import {render, RenderPosition} from '../framework/render';
+import {remove, render, RenderPosition, replace} from '../framework/render';
 import {filter, FilterType, UpdateType} from '../const';
 
 export default class MenuNavigationPresenter {
@@ -8,13 +8,17 @@ export default class MenuNavigationPresenter {
   #menuTemplate = null;
   #moviesModel = null;
 
-  constructor(mainNavigationModel, siteMenu, movies) {
-    this.#menuModel = mainNavigationModel;
+  constructor(menuNavigationModel, siteMenu, movies) {
+    this.#menuModel = menuNavigationModel;
     this.#menuContainer = siteMenu;
     this.#moviesModel = movies;
+    //добавляем в наблюдатель модели MenuNavigationModel функцию,
+    // которая будет вызвана при событии
+    this.#menuModel.addObserver(this.#handleModelEvent);
   }
 
-  //создает массив объектов со всеми возможными фильтрами в которых уже подсчитано число фильмов
+  //создает массив объектов со всеми возможными фильтрами
+  // в которых уже подсчитано число фильмов
   get filters() {
     const movies = this.#moviesModel.movies;
     return [{
@@ -42,17 +46,32 @@ export default class MenuNavigationPresenter {
   }
 
   init() {
+    const prevMenuComponent = this.#menuTemplate;
 //создается элемент-вьюха, которой передаются данные
 // из геттера(массив с фильтрами - this.filters)
 // и модели this.#menuModel = mainNavigationModel (текущий выбранный фильтр)
     this.#menuTemplate = new MenuNavigationView(this.filters, this.#menuModel);
-    //рендерится вьюха-меню(фильтров) на страницу
-    render(this.#menuTemplate, this.#menuContainer, RenderPosition.BEFOREEND);
-
+    //через интерфейс MenuNavigationView - в menuSelectHandler передаем колбэк
     this.#menuTemplate.menuSelectHandler(this.#handleMenuChange);
+//реализация проверки на уже отрендеренное меню и её замены
+    if (prevMenuComponent === null) {
+      //рендерится вьюха-меню(фильтров) на страницу
+      render(this.#menuTemplate, this.#menuContainer, RenderPosition.BEFOREEND);
+      console.log('init.menu-presenter');
+      return;
+    }
+    replace(this.#menuTemplate, prevMenuComponent);
+    remove(prevMenuComponent);
+
+
+    console.log('init.menu-presenter + replace');
+
   }
 
-  //коллбэк в menu-navigation-view - вызывается при клике на мень фильтров
+  #handleModelEvent = () => {
+    this.init();
+  };
+  //коллбэк в menu-navigation-view - вызывается при клике на меню фильтров
   #handleMenuChange = (filterType) => {
     if (this.#menuModel.filter === filterType) {
       return;
@@ -60,6 +79,6 @@ export default class MenuNavigationPresenter {
     if (filterType) {
       this.#menuModel.setFilter(UpdateType.MAJOR, filterType);
     }
-  }
+  };
 
 }

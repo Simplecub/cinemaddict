@@ -11,7 +11,7 @@ export default class MenuNavigationModel extends Observable {
   setFilter = (UpdateType, newFilter) => {
     this.#filter = newFilter
     this._notify(UpdateType, newFilter)
-    console.log(newFilter)
+   // console.log(newFilter)
   }
 
 }

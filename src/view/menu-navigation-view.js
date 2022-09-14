@@ -10,8 +10,8 @@ const getOneItemMenu = (filters, currentFilter) => {
 };
 const getMenuTemplate = (filters, currentFilter) => {
   const {filter} = currentFilter;
-  console.log(filters);
-  console.log(filter);
+//  console.log(filters);
+ // console.log(filter);
   return (`
   <nav class="main-navigation">
     <a href="#all" class="main-navigation__item ${filter === 'all' ? 'main-navigation__item--active' : ''}" data-action="all">All movies (${filters.filter(i => i.type === 'all')[0].count})</a>
@@ -44,7 +44,7 @@ export default class MenuNavigationView extends AbstractStatefulView {
   #menuHandler = (evt) => {
     evt.preventDefault();
     this._callback.menuSelector(evt.target.dataset.action)
-    console.log(evt.target.dataset.action);
+   // console.log(evt.target.dataset.action);
 
   }
 }
