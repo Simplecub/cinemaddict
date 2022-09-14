@@ -16,7 +16,7 @@ const moviesModel = new MoviesModel(new MoviesApiService(END_POINT, AUTHORIZATIO
 const menuNavigation = new MenuNavigationPresenter(new MenuNavigationModel(), siteMenuEl, moviesModel)
 
 moviesModel.init().then((res) => {
-  console.log('fff');
+  console.log(`start main = ` + res.length);
   render(new ProfileRatingView(res), siteMainEl, RenderPosition.BEFOREEND);
   render(new FooterStatisticsView(res), siteFooterEl, RenderPosition.BEFOREEND)
 
