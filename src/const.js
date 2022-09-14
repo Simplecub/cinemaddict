@@ -18,4 +18,10 @@ const filter = {
   [FilterType.HISTORY]: (movies) => movies.filter(item => item.userDetails.alreadyWatched),
   [FilterType.FAVORITES]: (movies) => movies.filter(item => item.userDetails.favorite)
 };
-export {UpdateType, FilterType, filter};
+
+const SortType = {
+  DEFAULT: 'default',
+  DATE: 'date',
+  RATE: 'rate'
+}
+export {UpdateType, FilterType, filter, SortType};

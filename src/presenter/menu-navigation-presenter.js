@@ -78,6 +78,7 @@ export default class MenuNavigationPresenter {
     }
     if (filterType) {
       this.#menuModel.setFilter(UpdateType.MAJOR, filterType);
+
     }
   };
 

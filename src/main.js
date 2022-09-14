@@ -5,20 +5,23 @@ import FooterStatisticsView from './view/footer-statistics-view.js';
 import {render, RenderPosition} from './framework/render.js';
 import MenuNavigationPresenter from './presenter/menu-navigation-presenter';
 import MenuNavigationModel from './model/menu-navigation-model';
+import BoardPresenter from './presenter/board-presenter';
 
-const siteMainEl = document.querySelector('.header');
+const siteHeadEl = document.querySelector('.header');
 const siteFooterEl = document.querySelector('.footer__statistics')
-const siteMenuEl = document.querySelector('.main')
+const siteMainEl = document.querySelector('.main')
 const AUTHORIZATION = 'Basic er883jdzbdw';
 const END_POINT = 'https://18.ecmascript.pages.academy/cinemaddict';
 const moviesModel = new MoviesModel(new MoviesApiService(END_POINT, AUTHORIZATION));
 
-const menuNavigation = new MenuNavigationPresenter(new MenuNavigationModel(), siteMenuEl, moviesModel)
+const menuNavigation = new MenuNavigationPresenter(new MenuNavigationModel(), siteMainEl, moviesModel)
 
+const boardPresenter = new BoardPresenter(siteMainEl)
 moviesModel.init().then((res) => {
   console.log(`start main = ` + res.length);
-  render(new ProfileRatingView(res), siteMainEl, RenderPosition.BEFOREEND);
+  render(new ProfileRatingView(res), siteHeadEl, RenderPosition.BEFOREEND);
   render(new FooterStatisticsView(res), siteFooterEl, RenderPosition.BEFOREEND)
 
   menuNavigation.init()
+  boardPresenter.init()
 });
