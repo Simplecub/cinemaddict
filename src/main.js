@@ -13,10 +13,11 @@ const siteMainEl = document.querySelector('.main')
 const AUTHORIZATION = 'Basic er883jdzbdw';
 const END_POINT = 'https://18.ecmascript.pages.academy/cinemaddict';
 const moviesModel = new MoviesModel(new MoviesApiService(END_POINT, AUTHORIZATION));
+const menuNavigationModel = new MenuNavigationModel()
 
-const menuNavigation = new MenuNavigationPresenter(new MenuNavigationModel(), siteMainEl, moviesModel)
+const menuNavigation = new MenuNavigationPresenter(menuNavigationModel, siteMainEl, moviesModel)
 
-const boardPresenter = new BoardPresenter(siteMainEl)
+const boardPresenter = new BoardPresenter(siteMainEl, menuNavigationModel) //передается элемент, куда рендерится и фильтр меню для подписки с помощью addObserver на изменения фильтра
 
 moviesModel.init().then((res) => {
   console.log(`start main = ` + res.length);

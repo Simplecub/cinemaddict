@@ -1,4 +1,4 @@
-import {SortType} from '../const.js';
+import {SortType, UpdateType} from '../const.js';
 import CreateSortView from '../view/000-create-sort-view';
 import {remove, render, RenderPosition} from '../framework/render';
 import SectionFilmsView from '../view/1-section-films-view';
@@ -16,8 +16,15 @@ export default class BoardPresenter {
   #filmsListContainer = null
   #movies = null
   #moviePresenter = new Map()
-  constructor(siteBoardEl) {
+  #menuNavigation = null
+  constructor(siteBoardEl, menuNavigation) {
     this.#siteBoard = siteBoardEl;
+    this.#menuNavigation = menuNavigation
+    //при смене фильтра в menu-navigation-view -> вызовет через колбэк в menu-navigation-presenter #handleMenuChange
+    //который в menu-navigation-model вызовет setFilter и установит новый фильтр и вызовит _notify для выполнения
+    //колбэков, передает ему чтобы перерендерить страницу с новым фильтом this.#handleOnModelChange
+
+    this.#menuNavigation.addObserver(this.#handleOnModelChange)
   }
 
   init = (movies) => {
@@ -25,6 +32,15 @@ export default class BoardPresenter {
     this.#renderBoard();
   };
 
+  //колбэк для наблюдателя - вызывается для ререндеринга
+  #handleOnModelChange = (updateType, dataThisMovie) => {
+switch (updateType) {
+  case UpdateType.MAJOR:    // обновить всю доску(при перекл фильра)
+    this.#clearBoard();
+    this.#renderBoard();
+    break
+}
+  }
   #renderSort = () => {
     this.#sortComponent = new CreateSortView(this.#currentSortType);
     this.#sortComponent.sortSelectHandler(this.#handleSortTypeChange);
@@ -50,6 +66,7 @@ export default class BoardPresenter {
 #renderFilms = (movies) => {
   movies.forEach((movie)=>this.renderFIlm(movie))
 }
+
   #renderBoard = () => {
     this.#renderSort();
     this.#sectionFilmsComponent = new SectionFilmsView()
@@ -63,6 +80,9 @@ export default class BoardPresenter {
 
   #clearBoard = () => {
     remove(this.#sortComponent);
+    remove(this.#sectionFilmsComponent)
+    remove(this.#sectionFilmsListComponent)
+    remove(this.#filmsListContainer)
   };
 
 }

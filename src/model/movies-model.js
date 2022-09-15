@@ -28,6 +28,7 @@ export default class MoviesModel extends Observable {
     } catch (err) {
       this.#movies = [];
     }
+    //this_notify (UpdateType.INIT)
   };
 
   #adaptToClient = (movie) => {
