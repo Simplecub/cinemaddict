@@ -17,7 +17,7 @@ const getFilmCard = (film) => {
             <p class="film-card__info">
               <span class="film-card__year">${dayjs(release.date).format(`YYYY`)}</span>
               <span class="film-card__duration">${humanizeTime(runtime)}</span>
-              <span class="film-card__genre">${genre.splice(' ')}</span>
+              <span class="film-card__genre">${genre.join(', ')}</span>
             </p>
             <img src="./${poster}" alt="" class="film-card__poster">
             <p class="film-card__description">${description.length <=140 ? description : `${description.slice(0, 139)}...`}</p>
