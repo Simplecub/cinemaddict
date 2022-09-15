@@ -1,12 +1,13 @@
 import AbstractView from '../framework/view/abstract-view.js';
+import {SortType} from '../const';
 
 const createSortTemplate = (currentSortType) => {
 
 return (`
   <ul class="sort">
-    <li><a href="#" class="sort__button ${currentSortType === 'default' ? 'sort__button--active' : ''}" data-action="default">Sort by default</a></li>
-    <li><a href="#" class="sort__button ${currentSortType === 'date' ? 'sort__button--active' : ''}" data-action="date">Sort by date</a></li>
-    <li><a href="#" class="sort__button ${currentSortType === 'rate' ? 'sort__button--active' : ''}" data-action="rate">Sort by rating</a></li>
+    <li><a href="#" class="sort__button ${currentSortType === SortType.DEFAULT ? 'sort__button--active' : ''}" data-action="${SortType.DEFAULT}">Sort by default</a></li>
+    <li><a href="#" class="sort__button ${currentSortType === SortType.DATE ? 'sort__button--active' : ''}" data-action="${SortType.DATE}">Sort by date</a></li>
+    <li><a href="#" class="sort__button ${currentSortType === SortType.RATE ? 'sort__button--active' : ''}" data-action="${SortType.RATE}">Sort by rating</a></li>
   </ul>
 `)
 }

@@ -17,11 +17,12 @@ const moviesModel = new MoviesModel(new MoviesApiService(END_POINT, AUTHORIZATIO
 const menuNavigation = new MenuNavigationPresenter(new MenuNavigationModel(), siteMainEl, moviesModel)
 
 const boardPresenter = new BoardPresenter(siteMainEl)
+
 moviesModel.init().then((res) => {
   console.log(`start main = ` + res.length);
-  render(new ProfileRatingView(res), siteHeadEl, RenderPosition.BEFOREEND);
-  render(new FooterStatisticsView(res), siteFooterEl, RenderPosition.BEFOREEND)
+  render(new ProfileRatingView(res), siteHeadEl, RenderPosition.BEFOREEND); //рендер рейтинга в header
+  render(new FooterStatisticsView(res), siteFooterEl, RenderPosition.BEFOREEND) //рендер в footer
 
-  menuNavigation.init()
-  boardPresenter.init()
+  menuNavigation.init() //рендер фильтра
+  boardPresenter.init() //рендер сортировки -afterBegin
 });
