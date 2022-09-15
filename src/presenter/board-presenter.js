@@ -1,11 +1,18 @@
 import {SortType} from '../const.js';
-import CreateSortView from '../view/create-sort-view';
+import CreateSortView from '../view/000-create-sort-view';
 import {remove, render, RenderPosition} from '../framework/render';
+import SectionFilmsView from '../view/1-section-films-view';
+import SectionFilmsListView from '../view/2-section-films-list-view';
+import FilmsListContainerView from '../view/3-films-list-container.view';
 
 export default class BoardPresenter {
   #siteBoard = null;
   #currentSortType = SortType.DEFAULT;
   #sortComponent = null;
+
+  #sectionFilmsComponent = null;
+  #sectionFilmsListComponent = null;
+  #filmsListContainer = null
 
   constructor(siteBoardEl) {
     this.#siteBoard = siteBoardEl;
@@ -35,6 +42,12 @@ export default class BoardPresenter {
 
   #renderBoard = () => {
     this.#renderSort();
+    this.#sectionFilmsComponent = new SectionFilmsView()
+    this.#sectionFilmsListComponent = new SectionFilmsListView()
+    this.#filmsListContainer = new FilmsListContainerView()
+    render(this.#sectionFilmsComponent, this.#siteBoard, RenderPosition.BEFOREEND)
+    render(this.#sectionFilmsListComponent, this.#siteBoard, RenderPosition.BEFOREEND)
+    render(this.#filmsListContainer, this.#siteBoard, RenderPosition.BEFOREEND)//film-presenter
   };
 
   #clearBoard = () => {

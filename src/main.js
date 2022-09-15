@@ -1,6 +1,6 @@
 import MoviesApiService from './movies-api-service.js';
 import MoviesModel from './model/movies-model';
-import ProfileRatingView from './view/profile-raiting-view.js';
+import ProfileRatingView from './view/0-profile-raiting-view.js';
 import FooterStatisticsView from './view/footer-statistics-view.js';
 import {render, RenderPosition} from './framework/render.js';
 import MenuNavigationPresenter from './presenter/menu-navigation-presenter';

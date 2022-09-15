@@ -1,4 +1,4 @@
-import MenuNavigationView from '../view/menu-navigation-view';
+import MenuNavigationView from '../view/00-menu-navigation-view';
 import {remove, render, RenderPosition, replace} from '../framework/render';
 import {filter, FilterType, UpdateType} from '../const';
 
