@@ -4,6 +4,7 @@ import {remove, render, RenderPosition} from '../framework/render';
 import SectionFilmsView from '../view/1-section-films-view';
 import SectionFilmsListView from '../view/2-section-films-list-view';
 import FilmsListContainerView from '../view/3-films-list-container.view';
+import FilmPresenter from './film-presenter';
 
 export default class BoardPresenter {
   #siteBoard = null;
@@ -14,6 +15,7 @@ export default class BoardPresenter {
   #sectionFilmsListComponent = null;
   #filmsListContainer = null
   #movies = null
+  #moviePresenter = new Map()
   constructor(siteBoardEl) {
     this.#siteBoard = siteBoardEl;
   }
@@ -40,15 +42,23 @@ export default class BoardPresenter {
       this.#renderBoard();
     }
   };
-
+  renderFIlm = (movie) => {
+    const moviePresenter = new FilmPresenter(this.#filmsListContainer)
+    moviePresenter.init(movie)
+    this.#moviePresenter.set(movie.id,moviePresenter)
+  }
+#renderFilms = (movies) => {
+  movies.forEach((movie)=>this.renderFIlm(movie))
+}
   #renderBoard = () => {
     this.#renderSort();
     this.#sectionFilmsComponent = new SectionFilmsView()
     this.#sectionFilmsListComponent = new SectionFilmsListView()
     this.#filmsListContainer = new FilmsListContainerView()
     render(this.#sectionFilmsComponent, this.#siteBoard, RenderPosition.BEFOREEND)
-    render(this.#sectionFilmsListComponent, this.#siteBoard, RenderPosition.BEFOREEND)
-    render(this.#filmsListContainer, this.#siteBoard, RenderPosition.BEFOREEND)//film-presenter
+    render(this.#sectionFilmsListComponent, this.#sectionFilmsComponent.element, RenderPosition.BEFOREEND)
+    render(this.#filmsListContainer, this.#sectionFilmsListComponent.element, RenderPosition.BEFOREEND)
+    this.#renderFilms(this.#movies) //film-presenter
   };
 
   #clearBoard = () => {
