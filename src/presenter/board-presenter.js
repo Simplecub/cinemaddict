@@ -13,12 +13,13 @@ export default class BoardPresenter {
   #sectionFilmsComponent = null;
   #sectionFilmsListComponent = null;
   #filmsListContainer = null
-
+  #movies = null
   constructor(siteBoardEl) {
     this.#siteBoard = siteBoardEl;
   }
 
-  init = () => {
+  init = (movies) => {
+    this.#movies = movies
     this.#renderBoard();
   };
 

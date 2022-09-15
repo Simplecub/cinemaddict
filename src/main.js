@@ -24,5 +24,5 @@ moviesModel.init().then((res) => {
   render(new FooterStatisticsView(res), siteFooterEl, RenderPosition.BEFOREEND) //рендер в footer
 
   menuNavigation.init() //рендер фильтра
-  boardPresenter.init() //рендер сортировки -afterBegin
+  boardPresenter.init(res) //рендер сортировки -afterBegin
 });
