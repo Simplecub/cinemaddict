@@ -6,6 +6,8 @@ import SectionFilmsListView from '../view/2-section-films-list-view';
 import FilmsListContainerView from '../view/3-films-list-container.view';
 import FilmPresenter from './film-presenter';
 import {sortMovieToDate, sortMovieToRate} from '../util';
+import FooterStatisticsView from '../view/footer-statistics-view';
+import ProfileRatingView from '../view/0-profile-raiting-view';
 
 export default class BoardPresenter {
   #siteBoard = null;
@@ -21,7 +23,12 @@ export default class BoardPresenter {
   #filterType = FilterType.ALL;
   #moviesModel = null;
 
-  constructor(siteBoardEl, menuNavigation, moviesModel) {
+  #siteHeadContainer = null
+  #profileRatingComponent = null
+  #siteFooterContainer = null
+  #footerStatisticsComponent = null
+
+  constructor(siteBoardEl, siteHeadEl, siteFooterEl, menuNavigation, moviesModel) {
     this.#siteBoard = siteBoardEl;
     this.#menuNavigation = menuNavigation;
     //при смене фильтра в menu-navigation-view -> вызовет через колбэк в menu-navigation-presenter #handleMenuChange
@@ -30,6 +37,13 @@ export default class BoardPresenter {
     this.#menuNavigation.addObserver(this.#handleOnModelChange);
 
     this.#moviesModel = moviesModel;
+
+    this.#siteHeadContainer = siteHeadEl
+    this.#profileRatingComponent = new ProfileRatingView(this.#moviesModel.movies)
+    render(this.#profileRatingComponent, this.#siteHeadContainer, RenderPosition.BEFOREEND)
+    this.#siteFooterContainer = siteFooterEl
+    this.#footerStatisticsComponent = new FooterStatisticsView(this.#moviesModel.movies)
+    render(this.#footerStatisticsComponent, this.#siteFooterContainer, RenderPosition.BEFOREEND)
   }
 
   getMovies = () => {
@@ -46,8 +60,8 @@ export default class BoardPresenter {
     }
     return filteredMovies;
   };
-  init = () => {
 
+  init = () => {
     this.#renderBoard();
   };
 
@@ -98,6 +112,14 @@ export default class BoardPresenter {
     render(this.#sectionFilmsListComponent, this.#sectionFilmsComponent.element, RenderPosition.BEFOREEND);
     render(this.#filmsListContainer, this.#sectionFilmsListComponent.element, RenderPosition.BEFOREEND);
     this.#renderFilms(moviesFiltered); //film-presenter
+
+
+    remove(this.#profileRatingComponent)
+    this.#profileRatingComponent = new ProfileRatingView(this.#moviesModel.movies)
+    render(this.#profileRatingComponent, this.#siteHeadContainer, RenderPosition.BEFOREEND)
+    remove(this.#footerStatisticsComponent)
+    this.#footerStatisticsComponent = new FooterStatisticsView(this.#moviesModel.movies)
+    render(this.#footerStatisticsComponent, this.#siteFooterContainer, RenderPosition.BEFOREEND)
   };
 
   #clearBoard = () => {
@@ -105,6 +127,7 @@ export default class BoardPresenter {
     remove(this.#sectionFilmsComponent);
     remove(this.#sectionFilmsListComponent);
     remove(this.#filmsListContainer);
+  //  remove(this.#footerStatisticsComponent)
   };
 
 }

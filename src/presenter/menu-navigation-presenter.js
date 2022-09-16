@@ -8,7 +8,7 @@ export default class MenuNavigationPresenter {
   #menuTemplate = null;
   #moviesModel = null;
 
-  constructor(menuNavigationModel, siteMenu, movies) {
+  constructor(siteMenu,menuNavigationModel, movies) {
     this.#menuModel = menuNavigationModel;
     this.#menuContainer = siteMenu;
     this.#moviesModel = movies;

@@ -15,15 +15,15 @@ const END_POINT = 'https://18.ecmascript.pages.academy/cinemaddict';
 const moviesModel = new MoviesModel(new MoviesApiService(END_POINT, AUTHORIZATION));
 const menuNavigationModel = new MenuNavigationModel()
 
-const menuNavigation = new MenuNavigationPresenter(menuNavigationModel, siteMainEl, moviesModel)
+const menuNavigation = new MenuNavigationPresenter(siteMainEl, menuNavigationModel, moviesModel)
 
-const boardPresenter = new BoardPresenter(siteMainEl, menuNavigationModel, moviesModel) //передается элемент, куда рендерится и фильтр меню для подписки с помощью addObserver на изменения фильтра
+const boardPresenter = new BoardPresenter(siteMainEl, siteHeadEl, siteFooterEl, menuNavigationModel, moviesModel) //передается элемент, куда рендерится и фильтр меню для подписки с помощью addObserver на изменения фильтра
 
 moviesModel.init().then((res) => {
   console.log(`start main = ` + res.length);
-  render(new ProfileRatingView(res), siteHeadEl, RenderPosition.BEFOREEND); //рендер рейтинга в header
-  render(new FooterStatisticsView(res), siteFooterEl, RenderPosition.BEFOREEND) //рендер в footer
+ // render(new ProfileRatingView(res), siteHeadEl, RenderPosition.BEFOREEND); //рендер рейтинга в header
+//  render(new FooterStatisticsView(res), siteFooterEl, RenderPosition.BEFOREEND) //рендер в footer
 
   menuNavigation.init() //рендер фильтра
-  boardPresenter.init(res) //рендер сортировки -afterBegin
+  boardPresenter.init() //рендер сортировки -afterBegin
 });
