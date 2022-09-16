@@ -3,18 +3,18 @@ import {remove, render, RenderPosition, replace} from '../framework/render';
 import {filter, FilterType, UpdateType} from '../const';
 
 export default class MenuNavigationPresenter {
-  #menuModel = null;
+  #menuNavigation = null;
   #menuContainer = null;
   #menuTemplate = null;
   #moviesModel = null;
 
   constructor(siteMenu,menuNavigationModel, movies) {
-    this.#menuModel = menuNavigationModel;
+    this.#menuNavigation = menuNavigationModel;
     this.#menuContainer = siteMenu;
     this.#moviesModel = movies;
     //добавляем в наблюдатель модели MenuNavigationModel функцию,
     // которая будет вызвана при событии
-    this.#menuModel.addObserver(this.#handleModelEvent);
+    this.#menuNavigation.addObserver(this.#handleModelEvent);
   }
 
   //создает массив объектов со всеми возможными фильтрами
@@ -50,7 +50,7 @@ export default class MenuNavigationPresenter {
 //создается элемент-вьюха, которой передаются данные
 // из геттера(массив с фильтрами - this.filters)
 // и модели this.#menuModel = mainNavigationModel (текущий выбранный фильтр)
-    this.#menuTemplate = new MenuNavigationView(this.filters, this.#menuModel);
+    this.#menuTemplate = new MenuNavigationView(this.filters, this.#menuNavigation);
     //через интерфейс MenuNavigationView - в menuSelectHandler передаем колбэк
     this.#menuTemplate.menuSelectHandler(this.#handleMenuChange);
 //реализация проверки на уже отрендеренное меню и её замены
@@ -72,11 +72,11 @@ export default class MenuNavigationPresenter {
 
   //коллбэк в menu-navigation-view - вызывается при клике на меню фильтров
   #handleMenuChange = (filterType) => {
-    if (this.#menuModel.filter === filterType) {
+    if (this.#menuNavigation.filter === filterType) {
       return;
     }
     if (filterType) {
-      this.#menuModel.setFilter(UpdateType.MAJOR, filterType);
+      this.#menuNavigation.setFilter(UpdateType.MAJOR, filterType);
     }
   };
 }

@@ -53,6 +53,7 @@ export default class MoviesModel extends Observable {
     };
     delete adaptedMovie['film_info'];
     delete adaptedMovie.filmInfo['age_rating'];
+    delete adaptedMovie.filmInfo['alternative_title']
     delete adaptedMovie.filmInfo.release['release_country'];
     delete adaptedMovie.filmInfo['total_rating'];
     delete adaptedMovie['user_details'];

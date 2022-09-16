@@ -21,7 +21,7 @@ const getFilmCard = (film) => {
             </p>
             <img src="./${poster}" alt="" class="film-card__poster">
             <p class="film-card__description">${description.length <=140 ? description : `${description.slice(0, 139)}...`}</p>
-            <span class="film-card__comments">${comments.length}</span>
+            <span class="film-card__comments"> ${comments.length} comments</span>
           </a>
           <div class="film-card__controls">
             <button class="film-card__controls-item film-card__controls-item--add-to-watchlist ${watchlist ? 'film-card__controls-item--active' : ''}" type="button">Add to watchlist</button>
@@ -42,4 +42,18 @@ export default class FilmCardView extends AbstractStatefulView {
   get template() {
     return getFilmCard(this.#film)
   }
+
+  setHandleOpenPopup = (callback) => {
+  this._callback.openPopup = callback
+  this.element.addEventListener('click', this.#openPopupHandler, {capture: true})
+  }
+  #openPopupHandler = (evt) => {
+  evt.preventDefault()
+    if (!evt.target.type) {
+      this._callback.openPopup()
+      console.log(evt.target.type)
+    }
+  }
+  
+
 }

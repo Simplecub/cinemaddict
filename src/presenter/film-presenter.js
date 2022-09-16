@@ -17,7 +17,10 @@ export default class FilmPresenter {
     this.#film = film;
 this.#filmComponent = new FilmCardView(film)
     render(this.#filmComponent, this.#filmsListContainer.element, RenderPosition.AFTERBEGIN )
+    this.#filmComponent.setHandleOpenPopup(this.#openPopup)
   }
-
+#openPopup = () =>{
+    console.log('need open popup')
+}
 
 }
