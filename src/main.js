@@ -17,7 +17,7 @@ const menuNavigationModel = new MenuNavigationModel()
 
 const menuNavigation = new MenuNavigationPresenter(menuNavigationModel, siteMainEl, moviesModel)
 
-const boardPresenter = new BoardPresenter(siteMainEl, menuNavigationModel) //передается элемент, куда рендерится и фильтр меню для подписки с помощью addObserver на изменения фильтра
+const boardPresenter = new BoardPresenter(siteMainEl, menuNavigationModel, moviesModel) //передается элемент, куда рендерится и фильтр меню для подписки с помощью addObserver на изменения фильтра
 
 moviesModel.init().then((res) => {
   console.log(`start main = ` + res.length);
