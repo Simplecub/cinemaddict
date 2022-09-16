@@ -14,37 +14,38 @@ export default class BoardPresenter {
 
   #sectionFilmsComponent = null;
   #sectionFilmsListComponent = null;
-  #filmsListContainer = null
-  #movies = null
-  #moviePresenter = new Map()
-  #menuNavigation = null
-  #filterType = FilterType.ALL
-  #moviesModel = null
+  #filmsListContainer = null;
+  #movies = null;
+  #moviePresenter = new Map();
+  #menuNavigation = null;
+  #filterType = FilterType.ALL;
+  #moviesModel = null;
+
   constructor(siteBoardEl, menuNavigation, moviesModel) {
     this.#siteBoard = siteBoardEl;
-    this.#menuNavigation = menuNavigation
+    this.#menuNavigation = menuNavigation;
     //при смене фильтра в menu-navigation-view -> вызовет через колбэк в menu-navigation-presenter #handleMenuChange
     //который в menu-navigation-model вызовет setFilter и установит новый фильтр и вызовит _notify для выполнения
     //колбэков, передает ему чтобы перерендерить страницу с новым фильтом this.#handleOnModelChange
-    this.#menuNavigation.addObserver(this.#handleOnModelChange)
+    this.#menuNavigation.addObserver(this.#handleOnModelChange);
 
-    this.#moviesModel = moviesModel
+    this.#moviesModel = moviesModel;
   }
-getMovies = () => {
-     const movies = this.#moviesModel.movies
-    this.#filterType = this.#menuNavigation.filter // получает текущий фильтр
-    const filteredMovies = filter[this.#filterType](movies) //фильтрует фильмы
-  switch (this.#currentSortType) {
-    case SortType.DEFAULT:
-      return filteredMovies.slice();
-    case SortType.RATE:
-      return filteredMovies.slice().sort(sortMovieToRate);
-    case SortType.DATE:
-      return filteredMovies.slice().sort(sortMovieToDate)
-  }
-  console.log(filteredMovies);
-  return filteredMovies
-}
+
+  getMovies = () => {
+    const movies = this.#moviesModel.movies;
+    this.#filterType = this.#menuNavigation.filter; // получает текущий фильтр
+    const filteredMovies = filter[this.#filterType](movies); //фильтрует фильмы
+    switch (this.#currentSortType) {
+      case SortType.DEFAULT:
+        return filteredMovies.slice();
+      case SortType.RATE:
+        return filteredMovies.slice().sort(sortMovieToRate);
+      case SortType.DATE:
+        return filteredMovies.slice().sort(sortMovieToDate);
+    }
+    return filteredMovies;
+  };
   init = () => {
 
     this.#renderBoard();
@@ -52,14 +53,14 @@ getMovies = () => {
 
   //колбэк для наблюдателя - вызывается для ререндеринга
   #handleOnModelChange = (updateType, dataThisMovie) => {
-switch (updateType) {
-  case UpdateType.MAJOR:    // обновить всю доску(при перекл фильра)
-    this.#clearBoard();
-    this.#renderBoard();
-    console.log('filter-changed')
-    break
-}
-  }
+    switch (updateType) {
+      case UpdateType.MAJOR:    // обновить всю доску(при перекл фильтра)
+        this.#clearBoard();
+        this.#renderBoard();
+        console.log('filter-changed');
+        break;
+    }
+  };
   #renderSort = () => {
     this.#sortComponent = new CreateSortView(this.#currentSortType);
     this.#sortComponent.sortSelectHandler(this.#handleSortTypeChange);
@@ -71,39 +72,39 @@ switch (updateType) {
       return;
     }
     if (selectedSortType) {
-      console.log(selectedSortType);
       this.#currentSortType = selectedSortType;
       this.#clearBoard();
       this.#renderBoard();
     }
   };
   renderFIlm = (movie) => {
-    const moviePresenter = new FilmPresenter(this.#filmsListContainer)
-    moviePresenter.init(movie)
-    this.#moviePresenter.set(movie.id,moviePresenter)
-  }
-#renderFilms = (movies) => {
-  movies.forEach((movie)=>this.renderFIlm(movie))
-}
+    const moviePresenter = new FilmPresenter(this.#filmsListContainer);
+    moviePresenter.init(movie);
+    this.#moviePresenter.set(movie.id, moviePresenter);
+  };
+  #renderFilms = (movies) => {
+    movies.forEach((movie) => this.renderFIlm(movie));
+  };
 
   #renderBoard = () => {
-   const moviesFiltered = this.getMovies()
-    if (moviesFiltered) {this.#renderSort()}
-    this.#sectionFilmsComponent = new SectionFilmsView()
-    this.#sectionFilmsListComponent = new SectionFilmsListView()
-    this.#filmsListContainer = new FilmsListContainerView()
-    render(this.#sectionFilmsComponent, this.#siteBoard, RenderPosition.BEFOREEND)
-    render(this.#sectionFilmsListComponent, this.#sectionFilmsComponent.element, RenderPosition.BEFOREEND)
-    render(this.#filmsListContainer, this.#sectionFilmsListComponent.element, RenderPosition.BEFOREEND)
-    console.log(moviesFiltered);
-    this.#renderFilms(moviesFiltered) //film-presenter
+    const moviesFiltered = this.getMovies();
+    if (moviesFiltered) {
+      this.#renderSort();
+    }
+    this.#sectionFilmsComponent = new SectionFilmsView();
+    this.#sectionFilmsListComponent = new SectionFilmsListView();
+    this.#filmsListContainer = new FilmsListContainerView();
+    render(this.#sectionFilmsComponent, this.#siteBoard, RenderPosition.BEFOREEND);
+    render(this.#sectionFilmsListComponent, this.#sectionFilmsComponent.element, RenderPosition.BEFOREEND);
+    render(this.#filmsListContainer, this.#sectionFilmsListComponent.element, RenderPosition.BEFOREEND);
+    this.#renderFilms(moviesFiltered); //film-presenter
   };
 
   #clearBoard = () => {
     remove(this.#sortComponent);
-    remove(this.#sectionFilmsComponent)
-    remove(this.#sectionFilmsListComponent)
-    remove(this.#filmsListContainer)
+    remove(this.#sectionFilmsComponent);
+    remove(this.#sectionFilmsListComponent);
+    remove(this.#filmsListContainer);
   };
 
 }

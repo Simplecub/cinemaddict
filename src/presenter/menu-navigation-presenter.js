@@ -62,15 +62,14 @@ export default class MenuNavigationPresenter {
     }
     replace(this.#menuTemplate, prevMenuComponent);
     remove(prevMenuComponent);
-
-
     console.log('init.menu-presenter + replace');
-
   }
 
   #handleModelEvent = () => {
     this.init();
   };
+
+
   //коллбэк в menu-navigation-view - вызывается при клике на меню фильтров
   #handleMenuChange = (filterType) => {
     if (this.#menuModel.filter === filterType) {
@@ -78,8 +77,6 @@ export default class MenuNavigationPresenter {
     }
     if (filterType) {
       this.#menuModel.setFilter(UpdateType.MAJOR, filterType);
-
     }
   };
-
 }

@@ -9,9 +9,9 @@ const humanizeTime = (minutes) => {
 };
 
 const sortMovieToRate = (movieA, movieB) => {
-  return  movieA.filmInfo.totalRating - movieB.filmInfo.totalRating;
+  return movieA.filmInfo.totalRating - movieB.filmInfo.totalRating;
 };
 const sortMovieToDate = (movieA, movieB) => {
-  return dayjs(movieA.filmInfo.release.date).diff(dayjs().toDate()) - dayjs(movieB.filmInfo.release.date).diff(dayjs().toDate())
-}
-export {humanizeTime,sortMovieToRate, sortMovieToDate};
+  return dayjs(movieA.filmInfo.release.date).diff(dayjs().toDate()) - dayjs(movieB.filmInfo.release.date).diff(dayjs().toDate());
+};
+export {humanizeTime, sortMovieToRate, sortMovieToDate};
