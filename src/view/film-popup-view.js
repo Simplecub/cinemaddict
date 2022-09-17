@@ -4,6 +4,7 @@ import {humanizeTime} from '../util';
 
 
 const getFilmPopup = (movie) => {
+  console.log(movie)
   const {filmInfo, userDetails} = movie
   const {poster,ageRating,title, alternativeTitle, totalRating, director, writers, actors,release, runtime, genre, description} = filmInfo
   const {watchlist, alreadyWatched, favorite} = userDetails

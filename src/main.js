@@ -10,6 +10,7 @@ import BoardPresenter from './presenter/board-presenter';
 const siteHeadEl = document.querySelector('.header');
 const siteFooterEl = document.querySelector('.footer__statistics')
 const siteMainEl = document.querySelector('.main')
+const siteBodyEl = document.querySelector('body')
 const AUTHORIZATION = 'Basic er883jdzbdw';
 const END_POINT = 'https://18.ecmascript.pages.academy/cinemaddict';
 const moviesModel = new MoviesModel(new MoviesApiService(END_POINT, AUTHORIZATION));
@@ -17,7 +18,7 @@ const menuNavigationModel = new MenuNavigationModel()
 
 const menuNavigation = new MenuNavigationPresenter(siteMainEl, menuNavigationModel, moviesModel)
 
-const boardPresenter = new BoardPresenter(siteMainEl, siteHeadEl, siteFooterEl, menuNavigationModel, moviesModel) //передается элемент, куда рендерится и фильтр меню для подписки с помощью addObserver на изменения фильтра
+const boardPresenter = new BoardPresenter(siteMainEl, siteHeadEl, siteFooterEl,siteBodyEl, menuNavigationModel, moviesModel) //передается элемент, куда рендерится и фильтр меню для подписки с помощью addObserver на изменения фильтра
 
 moviesModel.init().then((res) => {
   console.log(`start main = ` + res.length);

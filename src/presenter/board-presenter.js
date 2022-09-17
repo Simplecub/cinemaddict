@@ -32,7 +32,10 @@ export default class BoardPresenter {
   #showedCountMovies = SHOWED_COUNT_MOVIES
   #showMoreButtonComponent = null
 
-  constructor(siteBoardEl, siteHeadEl, siteFooterEl, menuNavigation, moviesModel) {
+  #siteBodyContainer = null
+
+
+  constructor(siteBoardEl, siteHeadEl, siteFooterEl, siteBodyEl, menuNavigation, moviesModel) {
     this.#siteBoard = siteBoardEl;
     this.#menuNavigation = menuNavigation;
     //при смене фильтра в menu-navigation-view -> вызовет через колбэк в menu-navigation-presenter #handleMenuChange
@@ -48,6 +51,8 @@ export default class BoardPresenter {
     this.#siteFooterContainer = siteFooterEl
     this.#footerStatisticsComponent = new FooterStatisticsView(this.#moviesModel.movies)
     render(this.#footerStatisticsComponent, this.#siteFooterContainer, RenderPosition.BEFOREEND)
+
+    this.#siteBodyContainer = siteBodyEl
   }
 
   getMovies = () => {
@@ -98,7 +103,7 @@ export default class BoardPresenter {
     }
   };
   renderFIlm = (movie) => {
-    const moviePresenter = new FilmPresenter(this.#filmsListContainer);
+    const moviePresenter = new FilmPresenter(this.#filmsListContainer, this.#siteBodyContainer);
     moviePresenter.init(movie);
     this.#moviePresenter.set(movie.id, moviePresenter);
   };
