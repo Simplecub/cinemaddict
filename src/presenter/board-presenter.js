@@ -69,7 +69,7 @@ export default class BoardPresenter {
   #handleOnModelChange = (updateType, dataThisMovie) => {
     switch (updateType) {
       case UpdateType.MAJOR:    // обновить всю доску(при перекл фильтра)
-        this.#clearBoard();
+        this.#clearBoard(true);
         this.#renderBoard();
         console.log('filter-changed');
         break;
@@ -122,11 +122,15 @@ export default class BoardPresenter {
     render(this.#footerStatisticsComponent, this.#siteFooterContainer, RenderPosition.BEFOREEND)
   };
 
-  #clearBoard = () => {
+  #clearBoard = (resetSortType = false) => {
     remove(this.#sortComponent);
     remove(this.#sectionFilmsComponent);
     remove(this.#sectionFilmsListComponent);
     remove(this.#filmsListContainer);
+
+    if(resetSortType) {
+      this.#currentSortType = SortType.DEFAULT
+    }
   //  remove(this.#footerStatisticsComponent)
   };
 
