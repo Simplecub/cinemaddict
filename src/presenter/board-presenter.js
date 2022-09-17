@@ -1,4 +1,4 @@
-import {filter, FilterType, SortType, UpdateType} from '../const.js';
+import {filter, FilterType, SHOWED_COUNT_MOVIES, SortType, UpdateType} from '../const.js';
 import CreateSortView from '../view/000-create-sort-view';
 import {remove, render, RenderPosition} from '../framework/render';
 import SectionFilmsView from '../view/1-section-films-view';
@@ -8,6 +8,7 @@ import FilmPresenter from './film-presenter';
 import {sortMovieToDate, sortMovieToRate} from '../util';
 import FooterStatisticsView from '../view/footer-statistics-view';
 import ProfileRatingView from '../view/0-profile-raiting-view';
+import ShowMoreButtonView from '../view/show-more-button-view';
 
 export default class BoardPresenter {
   #siteBoard = null;
@@ -27,6 +28,9 @@ export default class BoardPresenter {
   #profileRatingComponent = null
   #siteFooterContainer = null
   #footerStatisticsComponent = null
+
+  #showedCountMovies = SHOWED_COUNT_MOVIES
+  #showMoreButtonComponent = null
 
   constructor(siteBoardEl, siteHeadEl, siteFooterEl, menuNavigation, moviesModel) {
     this.#siteBoard = siteBoardEl;
@@ -70,6 +74,7 @@ export default class BoardPresenter {
     switch (updateType) {
       case UpdateType.MAJOR:    // обновить всю доску(при перекл фильтра)
         this.#clearBoard(true);
+        this.#showedCountMovies = SHOWED_COUNT_MOVIES
         this.#renderBoard();
         console.log('filter-changed');
         break;
@@ -87,6 +92,7 @@ export default class BoardPresenter {
     }
     if (selectedSortType) {
       this.#currentSortType = selectedSortType;
+      this.#showedCountMovies = SHOWED_COUNT_MOVIES
       this.#clearBoard();
       this.#renderBoard();
     }
@@ -103,6 +109,7 @@ export default class BoardPresenter {
   #renderBoard = () => {
     const moviesFiltered = this.getMovies();
     if (moviesFiltered) {
+    //
       this.#renderSort();
     }
     this.#sectionFilmsComponent = new SectionFilmsView();
@@ -111,7 +118,7 @@ export default class BoardPresenter {
     render(this.#sectionFilmsComponent, this.#siteBoard, RenderPosition.BEFOREEND);
     render(this.#sectionFilmsListComponent, this.#sectionFilmsComponent.element, RenderPosition.BEFOREEND);
     render(this.#filmsListContainer, this.#sectionFilmsListComponent.element, RenderPosition.BEFOREEND);
-    this.#renderFilms(moviesFiltered); //film-presenter
+    this.#renderFilms(this.#showMoreButton(this.#showedCountMovies, moviesFiltered)); //film-presenter
 
 
     remove(this.#profileRatingComponent)
@@ -128,10 +135,26 @@ export default class BoardPresenter {
     remove(this.#sectionFilmsListComponent);
     remove(this.#filmsListContainer);
 
+remove(this.#showMoreButtonComponent)
     if(resetSortType) {
       this.#currentSortType = SortType.DEFAULT
     }
   //  remove(this.#footerStatisticsComponent)
   };
 
+  #showMoreButton = (showed, movies) => {
+const moviesToRender = movies.slice(0, showed)
+    if (moviesToRender.length < movies.length) {
+
+      this.#showMoreButtonComponent = new ShowMoreButtonView(moviesToRender.length, movies.length)
+this.#showMoreButtonComponent.showMoreButtonHandler(this.#renderShowMoreButton)
+      render(this.#showMoreButtonComponent, this.#filmsListContainer.element, RenderPosition.BEFOREEND)
+    }
+return moviesToRender
+  }
+#renderShowMoreButton = () => {
+  this.#showedCountMovies += SHOWED_COUNT_MOVIES
+  this.#clearBoard();
+  this.#renderBoard();
+}
 }

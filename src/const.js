@@ -24,4 +24,5 @@ const SortType = {
   DATE: 'date',
   RATE: 'rate'
 }
-export {UpdateType, FilterType, filter, SortType};
+const SHOWED_COUNT_MOVIES = 5
+export {UpdateType, FilterType, filter, SortType, SHOWED_COUNT_MOVIES};
