@@ -1,4 +1,4 @@
-import {filter, FilterType, SHOWED_COUNT_MOVIES, SortType, UpdateType} from '../const.js';
+import {filter, FilterType, MODE_POPUP, SHOWED_COUNT_MOVIES, SortType, UpdateType} from '../const.js';
 import CreateSortView from '../view/000-create-sort-view';
 import {remove, render, RenderPosition} from '../framework/render';
 import SectionFilmsView from '../view/1-section-films-view';
@@ -33,8 +33,7 @@ export default class BoardPresenter {
   #showMoreButtonComponent = null
 
   #siteBodyContainer = null
-
-
+  isOpenPopup = null
   constructor(siteBoardEl, siteHeadEl, siteFooterEl, siteBodyEl, menuNavigation, moviesModel) {
     this.#siteBoard = siteBoardEl;
     this.#menuNavigation = menuNavigation;
@@ -103,9 +102,12 @@ export default class BoardPresenter {
     }
   };
   renderFIlm = (movie) => {
-    const moviePresenter = new FilmPresenter(this.#filmsListContainer, this.#siteBodyContainer);
+    console.log(this.isOpenPopup);
+    console.log(movie.id);
+  //  if (this.isOpenPopup && this.isOpenPopup !== movie.id)  {this.#moviePresenter.get(this.isOpenPopup).popupPresenter.removePopup()}
+    const moviePresenter = new FilmPresenter(this.#filmsListContainer, this.#siteBodyContainer, this.#handleFilmMode, this.#boardViewHandle);
     moviePresenter.init(movie);
-    this.#moviePresenter.set(movie.id, moviePresenter);
+    this.#moviePresenter.set(movie.id, moviePresenter); //записывает в коллекцию ключ и значение фильмов
   };
   #renderFilms = (movies) => {
     movies.forEach((movie) => this.renderFIlm(movie));
@@ -162,4 +164,16 @@ return moviesToRender
   this.#clearBoard();
   this.#renderBoard();
 }
+  #handleFilmMode = (film) => {
+this.isOpenPopup = film.id ?? ''
+    console.log(film.id);
+   //  this.#clearBoard();
+   //  this.#renderBoard();
+  }
+
+  #boardViewHandle = (film) => {
+    if (this.isOpenPopup && this.isOpenPopup !== film.id) {
+      this.#moviePresenter.get(this.isOpenPopup).popupPresenter.removePopup()
+    this.#moviePresenter.get(this.isOpenPopup).mode = MODE_POPUP.CLOSED
+  }}
 }

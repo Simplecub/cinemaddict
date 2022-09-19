@@ -24,5 +24,11 @@ const SortType = {
   DATE: 'date',
   RATE: 'rate'
 }
+
+const  MODE_POPUP = {
+  CLOSED: 'CLOSED',
+  OPEN: 'OPEN'
+}
+
 const SHOWED_COUNT_MOVIES = 5
-export {UpdateType, FilterType, filter, SortType, SHOWED_COUNT_MOVIES};
+export {UpdateType, FilterType, filter, SortType, SHOWED_COUNT_MOVIES, MODE_POPUP};
