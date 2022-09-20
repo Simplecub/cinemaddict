@@ -24,16 +24,17 @@ export default class BoardPresenter {
   #filterType = FilterType.ALL;
   #moviesModel = null;
 
-  #siteHeadContainer = null
-  #profileRatingComponent = null
-  #siteFooterContainer = null
-  #footerStatisticsComponent = null
+  #siteHeadContainer = null;
+  #profileRatingComponent = null;
+  #siteFooterContainer = null;
+  #footerStatisticsComponent = null;
 
-  #showedCountMovies = SHOWED_COUNT_MOVIES
-  #showMoreButtonComponent = null
+  #showedCountMovies = SHOWED_COUNT_MOVIES;
+  #showMoreButtonComponent = null;
 
-  #siteBodyContainer = null
-  isOpenPopup = null
+  #siteBodyContainer = null;
+  isOpenPopup = null;
+
   constructor(siteBoardEl, siteHeadEl, siteFooterEl, siteBodyEl, menuNavigation, moviesModel) {
     this.#siteBoard = siteBoardEl;
     this.#menuNavigation = menuNavigation;
@@ -44,14 +45,14 @@ export default class BoardPresenter {
 
     this.#moviesModel = moviesModel;
 
-    this.#siteHeadContainer = siteHeadEl
-    this.#profileRatingComponent = new ProfileRatingView(this.#moviesModel.movies)
-    render(this.#profileRatingComponent, this.#siteHeadContainer, RenderPosition.BEFOREEND)
-    this.#siteFooterContainer = siteFooterEl
-    this.#footerStatisticsComponent = new FooterStatisticsView(this.#moviesModel.movies)
-    render(this.#footerStatisticsComponent, this.#siteFooterContainer, RenderPosition.BEFOREEND)
+    this.#siteHeadContainer = siteHeadEl;
+    this.#profileRatingComponent = new ProfileRatingView(this.#moviesModel.movies);
+    render(this.#profileRatingComponent, this.#siteHeadContainer, RenderPosition.BEFOREEND);
+    this.#siteFooterContainer = siteFooterEl;
+    this.#footerStatisticsComponent = new FooterStatisticsView(this.#moviesModel.movies);
+    render(this.#footerStatisticsComponent, this.#siteFooterContainer, RenderPosition.BEFOREEND);
 
-    this.#siteBodyContainer = siteBodyEl
+    this.#siteBodyContainer = siteBodyEl;
   }
 
   getMovies = () => {
@@ -78,7 +79,7 @@ export default class BoardPresenter {
     switch (updateType) {
       case UpdateType.MAJOR:    // обновить всю доску(при перекл фильтра)
         this.#clearBoard(true);
-        this.#showedCountMovies = SHOWED_COUNT_MOVIES
+        this.#showedCountMovies = SHOWED_COUNT_MOVIES;
         this.#renderBoard();
         console.log('filter-changed');
         break;
@@ -96,7 +97,7 @@ export default class BoardPresenter {
     }
     if (selectedSortType) {
       this.#currentSortType = selectedSortType;
-      this.#showedCountMovies = SHOWED_COUNT_MOVIES
+      this.#showedCountMovies = SHOWED_COUNT_MOVIES;
       this.#clearBoard();
       this.#renderBoard();
     }
@@ -104,8 +105,8 @@ export default class BoardPresenter {
   renderFIlm = (movie) => {
     console.log(this.isOpenPopup);
     console.log(movie.id);
-  //  if (this.isOpenPopup && this.isOpenPopup !== movie.id)  {this.#moviePresenter.get(this.isOpenPopup).popupPresenter.removePopup()}
-    const moviePresenter = new FilmPresenter(this.#filmsListContainer, this.#siteBodyContainer, this.#handleFilmMode, this.#boardViewHandle);
+    //  if (this.isOpenPopup && this.isOpenPopup !== movie.id)  {this.#moviePresenter.get(this.isOpenPopup).popupPresenter.removePopup()}
+    const moviePresenter = new FilmPresenter(this.#filmsListContainer, this.#siteBodyContainer, this.#handleFilmOpenedPopup, this.#boardViewHandle);
     moviePresenter.init(movie);
     this.#moviePresenter.set(movie.id, moviePresenter); //записывает в коллекцию ключ и значение фильмов
   };
@@ -116,7 +117,7 @@ export default class BoardPresenter {
   #renderBoard = () => {
     const moviesFiltered = this.getMovies();
     if (moviesFiltered) {
-    //
+      //
       this.#renderSort();
     }
     this.#sectionFilmsComponent = new SectionFilmsView();
@@ -128,12 +129,12 @@ export default class BoardPresenter {
     this.#renderFilms(this.#showMoreButton(this.#showedCountMovies, moviesFiltered)); //film-presenter
 
 
-    remove(this.#profileRatingComponent)
-    this.#profileRatingComponent = new ProfileRatingView(this.#moviesModel.movies)
-    render(this.#profileRatingComponent, this.#siteHeadContainer, RenderPosition.BEFOREEND)
-    remove(this.#footerStatisticsComponent)
-    this.#footerStatisticsComponent = new FooterStatisticsView(this.#moviesModel.movies)
-    render(this.#footerStatisticsComponent, this.#siteFooterContainer, RenderPosition.BEFOREEND)
+    remove(this.#profileRatingComponent);
+    this.#profileRatingComponent = new ProfileRatingView(this.#moviesModel.movies);
+    render(this.#profileRatingComponent, this.#siteHeadContainer, RenderPosition.BEFOREEND);
+    remove(this.#footerStatisticsComponent);
+    this.#footerStatisticsComponent = new FooterStatisticsView(this.#moviesModel.movies);
+    render(this.#footerStatisticsComponent, this.#siteFooterContainer, RenderPosition.BEFOREEND);
   };
 
   #clearBoard = (resetSortType = false) => {
@@ -142,38 +143,39 @@ export default class BoardPresenter {
     remove(this.#sectionFilmsListComponent);
     remove(this.#filmsListContainer);
 
-remove(this.#showMoreButtonComponent)
-    if(resetSortType) {
-      this.#currentSortType = SortType.DEFAULT
+    remove(this.#showMoreButtonComponent);
+    if (resetSortType) {
+      this.#currentSortType = SortType.DEFAULT;
     }
-  //  remove(this.#footerStatisticsComponent)
+    //  remove(this.#footerStatisticsComponent)
   };
 
   #showMoreButton = (showed, movies) => {
-const moviesToRender = movies.slice(0, showed)
+    const moviesToRender = movies.slice(0, showed);
     if (moviesToRender.length < movies.length) {
 
-      this.#showMoreButtonComponent = new ShowMoreButtonView(moviesToRender.length, movies.length)
-this.#showMoreButtonComponent.showMoreButtonHandler(this.#renderShowMoreButton)
-      render(this.#showMoreButtonComponent, this.#filmsListContainer.element, RenderPosition.BEFOREEND)
+      this.#showMoreButtonComponent = new ShowMoreButtonView(moviesToRender.length, movies.length);
+      this.#showMoreButtonComponent.showMoreButtonHandler(this.#renderShowMoreButton);
+      render(this.#showMoreButtonComponent, this.#filmsListContainer.element, RenderPosition.BEFOREEND);
     }
-return moviesToRender
-  }
-#renderShowMoreButton = () => {
-  this.#showedCountMovies += SHOWED_COUNT_MOVIES
-  this.#clearBoard();
-  this.#renderBoard();
-}
-  #handleFilmMode = (film) => {
-this.isOpenPopup = film.id ?? ''
+    return moviesToRender;
+  };
+  #renderShowMoreButton = () => {
+    this.#showedCountMovies += SHOWED_COUNT_MOVIES;
+    this.#clearBoard();
+    this.#renderBoard();
+  };
+  #handleFilmOpenedPopup = (film) => {
+    this.isOpenPopup = film.id //?? '';
     console.log(film.id);
-   //  this.#clearBoard();
-   //  this.#renderBoard();
-  }
+    //  this.#clearBoard();
+    //  this.#renderBoard();
+  };
 
-  #boardViewHandle = (film) => {
+  #boardViewHandle = (film) => {  //вызывается при открытии попапа
     if (this.isOpenPopup && this.isOpenPopup !== film.id) {
-      this.#moviePresenter.get(this.isOpenPopup).popupPresenter.removePopup()
-    this.#moviePresenter.get(this.isOpenPopup).mode = MODE_POPUP.CLOSED
-  }}
+      this.#moviePresenter.get(this.isOpenPopup).popupPresenter.removePopup();
+      this.#moviePresenter.get(this.isOpenPopup).handlePopupClose(); //this.mode = MODE_POPUP.CLOSED - попап закрыт
+    }
+  };
 }

@@ -12,14 +12,13 @@ export default class PopupPresenter {
   #mode = MODE_POPUP.OPEN;
   #handlePopupMode = () => {
   };
-  #boardViewHandle =() => {
-  };
 
-  constructor(siteBodyContainer, handlePopupMode, boardViewHandle) {
+
+  constructor(siteBodyContainer, handlePopupMode) {
 
     this.#siteBodyContainer = siteBodyContainer;
     this.#handlePopupMode = handlePopupMode;
-    this.#boardViewHandle = boardViewHandle
+
   }
 
   init(movie) {
@@ -32,9 +31,10 @@ export default class PopupPresenter {
     this.#filmPopupSectionComponent = new FilmPopupSectionView();
     this.#filmPopupContainerComponent = new FilmPopupContainerView();
     render(this.#filmPopupComponent, this.#filmPopupContainerComponent.element, RenderPosition.BEFOREEND);
-    render(this.#filmPopupContainerComponent, this.#filmPopupSectionComponent.element);
-    render(this.#filmPopupSectionComponent, this.#siteBodyContainer);
+    render(this.#filmPopupContainerComponent, this.#filmPopupSectionComponent.element); //render top-container Popup
+    //need render comment??
 
+    render(this.#filmPopupSectionComponent, this.#siteBodyContainer);
 
   }
 

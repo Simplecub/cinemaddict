@@ -11,14 +11,14 @@ export default class FilmPresenter {
   #filmComponent = null;
   popupPresenter = null;
   mode = MODE_POPUP.CLOSED;
-  #handleFilmMode = () => {
+  #handleFilmOpenedPopup = () => {
   };
   #boardViewHandle = () => {
   };
-  constructor(filmsListContainer, siteBodyContainer, handleFilmMode, boardViewHandle) {
+  constructor(filmsListContainer, siteBodyContainer, handleFilmOpenedPopup, boardViewHandle) {
     this.#filmsListContainer = filmsListContainer;
-    this.popupPresenter = new PopupPresenter(siteBodyContainer, this.#handlePopupMode);
-    this.#handleFilmMode = handleFilmMode;
+    this.popupPresenter = new PopupPresenter(siteBodyContainer, this.handlePopupClose);
+    this.#handleFilmOpenedPopup = handleFilmOpenedPopup;
     this.#boardViewHandle = boardViewHandle
   }
 
@@ -43,10 +43,10 @@ export default class FilmPresenter {
     this.popupPresenter.init(this.#film);
     this.mode = MODE_POPUP.OPEN;
     console.log(this.mode);
-    this.#handleFilmMode(this.#film);
+    this.#handleFilmOpenedPopup(this.#film);
 
   };
-  #handlePopupMode = () => {
+  handlePopupClose = () => {
      this.mode = MODE_POPUP.CLOSED;
     console.log('film-presenter = closed popup');
 
