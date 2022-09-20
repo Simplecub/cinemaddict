@@ -15,11 +15,12 @@ export default class FilmPresenter {
   };
   #boardViewHandle = () => {
   };
+
   constructor(filmsListContainer, siteBodyContainer, handleFilmOpenedPopup, boardViewHandle) {
     this.#filmsListContainer = filmsListContainer;
     this.popupPresenter = new PopupPresenter(siteBodyContainer, this.handlePopupClose);
     this.#handleFilmOpenedPopup = handleFilmOpenedPopup;
-    this.#boardViewHandle = boardViewHandle
+    this.#boardViewHandle = boardViewHandle;
   }
 
   init(film) {
@@ -38,7 +39,7 @@ export default class FilmPresenter {
     }
 
 
-    this.#boardViewHandle(this.#film)
+    this.#boardViewHandle(this.#film);
 //remove()
     this.popupPresenter.init(this.#film);
     this.mode = MODE_POPUP.OPEN;
@@ -47,7 +48,7 @@ export default class FilmPresenter {
 
   };
   handlePopupClose = () => {
-     this.mode = MODE_POPUP.CLOSED;
+    this.mode = MODE_POPUP.CLOSED;
     console.log('film-presenter = closed popup');
 
   };
