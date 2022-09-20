@@ -106,7 +106,7 @@ export default class BoardPresenter {
     console.log(this.isOpenPopup);
     console.log(movie.id);
     //  if (this.isOpenPopup && this.isOpenPopup !== movie.id)  {this.#moviePresenter.get(this.isOpenPopup).popupPresenter.removePopup()}
-    const moviePresenter = new FilmPresenter(this.#filmsListContainer, this.#siteBodyContainer, this.#handleFilmOpenedPopup, this.#boardViewHandle);
+    const moviePresenter = new FilmPresenter(this.#filmsListContainer, this.#siteBodyContainer, this.#handleFilmOpenedPopup, this.#boardViewHandle, this.#moviesModel);
     moviePresenter.init(movie);
     this.#moviePresenter.set(movie.id, moviePresenter); //записывает в коллекцию ключ и значение фильмов
   };
@@ -174,7 +174,7 @@ export default class BoardPresenter {
 
   #boardViewHandle = (film) => {  //вызывается при открытии попапа
     if (this.isOpenPopup && this.isOpenPopup !== film.id) {
-      this.#moviePresenter.get(this.isOpenPopup).popupPresenter.removePopup();
+    //  this.#moviePresenter.get(this.isOpenPopup).popupPresenter.removePopup();
       this.#moviePresenter.get(this.isOpenPopup).handlePopupClose(); //this.mode = MODE_POPUP.CLOSED - попап закрыт
     }
   };

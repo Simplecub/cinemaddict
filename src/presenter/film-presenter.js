@@ -3,6 +3,7 @@ import FilmCardView from '../view/film-card-view';
 import {remove, render, RenderPosition} from '../framework/render';
 import PopupPresenter from './popup-presenter';
 import {MODE_POPUP} from '../const';
+import FilmPopupSectionView from '../view/film-popup-section-view';
 
 
 export default class FilmPresenter {
@@ -15,10 +16,16 @@ export default class FilmPresenter {
   };
   #boardViewHandle = () => {
   };
-
-  constructor(filmsListContainer, siteBodyContainer, handleFilmOpenedPopup, boardViewHandle) {
+  #filmPopupSectionComponent = null;
+  #siteBodyContainer = null;
+  constructor(filmsListContainer, siteBodyContainer, handleFilmOpenedPopup, boardViewHandle, movieModel) {
     this.#filmsListContainer = filmsListContainer;
-    this.popupPresenter = new PopupPresenter(siteBodyContainer, this.handlePopupClose);
+
+    this.#siteBodyContainer = siteBodyContainer;
+  //  this.#filmPopupSectionComponent = new FilmPopupSectionView();
+
+
+
     this.#handleFilmOpenedPopup = handleFilmOpenedPopup;
     this.#boardViewHandle = boardViewHandle;
   }
@@ -37,7 +44,9 @@ export default class FilmPresenter {
     if (this.mode === MODE_POPUP.OPEN) {
       return;
     }
-
+    this.#filmPopupSectionComponent = new FilmPopupSectionView();
+    render(this.#filmPopupSectionComponent, this.#siteBodyContainer)
+    this.popupPresenter = new PopupPresenter(this.#filmPopupSectionComponent, this.handlePopupClose);
 
     this.#boardViewHandle(this.#film);
 //remove()
@@ -50,7 +59,9 @@ export default class FilmPresenter {
   handlePopupClose = () => {
     this.mode = MODE_POPUP.CLOSED;
     console.log('film-presenter = closed popup');
-
+    remove(this.#filmPopupSectionComponent);
+    console.log(this.popupPresenter);
   };
+
 
 }

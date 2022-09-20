@@ -6,6 +6,8 @@ import {render, RenderPosition} from './framework/render.js';
 import MenuNavigationPresenter from './presenter/menu-navigation-presenter';
 import MenuNavigationModel from './model/menu-navigation-model';
 import BoardPresenter from './presenter/board-presenter';
+import CommentsModel from './model/comments-model';
+import CommentsApiService from './comments-api-service';
 
 const siteHeadEl = document.querySelector('.header');
 const siteFooterEl = document.querySelector('.footer__statistics')
@@ -14,6 +16,7 @@ const siteBodyEl = document.querySelector('body')
 const AUTHORIZATION = 'Basic er883jdzbdw';
 const END_POINT = 'https://18.ecmascript.pages.academy/cinemaddict';
 const moviesModel = new MoviesModel(new MoviesApiService(END_POINT, AUTHORIZATION));
+const commentsModel = new CommentsModel(new CommentsApiService(END_POINT, AUTHORIZATION))
 const menuNavigationModel = new MenuNavigationModel()
 
 const menuNavigation = new MenuNavigationPresenter(siteMainEl, menuNavigationModel, moviesModel)
@@ -27,4 +30,5 @@ moviesModel.init().then((res) => {
 
   menuNavigation.init() //рендер фильтра
   boardPresenter.init() //рендер сортировки -afterBegin
+
 });

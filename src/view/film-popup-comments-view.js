@@ -1,5 +1,12 @@
 import AbstractStatefulView from '../framework/view/abstract-stateful-view';
 
+
+
+const getComment = () => {
+
+  return
+}
+
 const getComments = () => {
 
   return (`

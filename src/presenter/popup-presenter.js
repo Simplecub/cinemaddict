@@ -12,11 +12,11 @@ export default class PopupPresenter {
   #mode = MODE_POPUP.OPEN;
   #handlePopupMode = () => {
   };
+#movieModel = null
 
-
-  constructor(siteBodyContainer, handlePopupMode) {
-
-    this.#siteBodyContainer = siteBodyContainer;
+  constructor(filmPopupSectionComponent, handlePopupMode) {
+    this.#filmPopupSectionComponent  = filmPopupSectionComponent
+ //   this.#siteBodyContainer = siteBodyContainer;
     this.#handlePopupMode = handlePopupMode;
 
   }
@@ -26,15 +26,15 @@ export default class PopupPresenter {
       remove(this.#filmPopupSectionComponent);
     }
     this.#filmPopupComponent = new FilmPopupView(movie);
-
     this.#filmPopupComponent.setClosePopupHandler(this.#handlePopupClose);
-    this.#filmPopupSectionComponent = new FilmPopupSectionView();
+
+   // this.#filmPopupSectionComponent = new FilmPopupSectionView();
     this.#filmPopupContainerComponent = new FilmPopupContainerView();
     render(this.#filmPopupComponent, this.#filmPopupContainerComponent.element, RenderPosition.BEFOREEND);
-    render(this.#filmPopupContainerComponent, this.#filmPopupSectionComponent.element); //render top-container Popup
+    render(this.#filmPopupContainerComponent, this.#filmPopupSectionComponent.element, RenderPosition.BEFOREEND); //render top-container Popup
     //need render comment??
 
-    render(this.#filmPopupSectionComponent, this.#siteBodyContainer);
+  // render(this.#filmPopupSectionComponent, this.#siteBodyContainer);
 
   }
 
@@ -42,11 +42,14 @@ export default class PopupPresenter {
     console.log('close popup');
     // remove(this.#filmPopupComponent);
     // remove(this.#filmPopupContainerComponent);
-    this.removePopup()
+  //  this.removePopup()
     this.#handlePopupMode();
   };
+/*
 removePopup = () => {
   remove(this.#filmPopupSectionComponent);
 }
+
+ */
 
 }

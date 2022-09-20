@@ -5,7 +5,7 @@ import {UpdateType} from '../const.js';
 export default class MoviesModel extends Observable {
   #moviesAPIService = null;
   #movies = [];
-  #comments = [];
+ // #comments = [];
 
   constructor(moviesApiService) {
     super();
@@ -16,13 +16,13 @@ export default class MoviesModel extends Observable {
     return this.#movies;
   }
 
-  get comments() {
-    return this.#comments;
-  }
+ // get comments() {
+ //   return this.#comments;
+ // }
 
   init = async () => {
     try {
-      this.#comments = await this.#moviesAPIService.comments;
+  //    this.#comments = await this.#moviesAPIService.comments;
       const movies = await this.#moviesAPIService.movies;
       return this.#movies = movies.map(this.#adaptToClient);
     } catch (err) {
