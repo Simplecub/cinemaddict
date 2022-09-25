@@ -3,6 +3,9 @@ import FilmPopupView from '../view/film-popup-view';
 import FilmPopupContainerView from '../view/film-popup-container-view';
 import {render, createElement, RenderPosition, remove} from '../framework/render';
 import {MODE_POPUP} from '../const';
+import CommentsPresenter from './comments-presenter';
+import CommentsModel from '../model/comments-model';
+import FilmPopupCommentsView from '../view/film-popup-comments-view';
 
 export default class PopupPresenter {
   #filmPopupSectionComponent = null;
@@ -12,13 +15,19 @@ export default class PopupPresenter {
   #mode = MODE_POPUP.OPEN;
   #handlePopupMode = () => {
   };
-#movieModel = null
+  #movieModel = null;
+  #commentsPresenter = null;
+  #commentsModel = null;
+  #commentsComponent = null
 
-  constructor(filmPopupSectionComponent, handlePopupMode) {
-    this.#filmPopupSectionComponent  = filmPopupSectionComponent
- //   this.#siteBodyContainer = siteBodyContainer;
+  constructor(filmPopupSectionComponent, commentsModel, handlePopupMode) {
+    this.#filmPopupSectionComponent = filmPopupSectionComponent;
+    //   this.#siteBodyContainer = siteBodyContainer;
     this.#handlePopupMode = handlePopupMode;
 
+    this.#filmPopupContainerComponent = new FilmPopupContainerView(); //insert comments
+    this.#commentsModel = commentsModel;
+    this.#commentsPresenter = new CommentsPresenter(this.#filmPopupContainerComponent, this.#commentsModel);
   }
 
   init(movie) {
@@ -28,13 +37,14 @@ export default class PopupPresenter {
     this.#filmPopupComponent = new FilmPopupView(movie);
     this.#filmPopupComponent.setClosePopupHandler(this.#handlePopupClose);
 
-   // this.#filmPopupSectionComponent = new FilmPopupSectionView();
-    this.#filmPopupContainerComponent = new FilmPopupContainerView();
-    render(this.#filmPopupComponent, this.#filmPopupContainerComponent.element, RenderPosition.BEFOREEND);
-    render(this.#filmPopupContainerComponent, this.#filmPopupSectionComponent.element, RenderPosition.BEFOREEND); //render top-container Popup
-    //need render comment??
+    // this.#filmPopupSectionComponent = new FilmPopupSectionView();
 
-  // render(this.#filmPopupSectionComponent, this.#siteBodyContainer);
+    render(this.#filmPopupComponent, this.#filmPopupContainerComponent.element, RenderPosition.AFTERBEGIN);
+    render(this.#filmPopupContainerComponent, this.#filmPopupSectionComponent.element, RenderPosition.AFTERBEGIN); //render top-container Popup
+    //need render comment??
+    this.#renderComments(movie)
+    ;
+    // render(this.#filmPopupSectionComponent, this.#siteBodyContainer);
 
   }
 
@@ -42,14 +52,24 @@ export default class PopupPresenter {
     console.log('close popup');
     // remove(this.#filmPopupComponent);
     // remove(this.#filmPopupContainerComponent);
-  //  this.removePopup()
+    //  this.removePopup()
     this.#handlePopupMode();
   };
-/*
-removePopup = () => {
-  remove(this.#filmPopupSectionComponent);
-}
+  /*
+  removePopup = () => {
+    remove(this.#filmPopupSectionComponent);
+  }
+   */
 
- */
 
+  #renderComments =  (movie) => {
+
+      this.#commentsPresenter.init(movie)
+        .then((comments) => {
+          this.#commentsComponent = new FilmPopupCommentsView(comments)
+          render(this.#commentsComponent, this.#filmPopupSectionComponent.element, RenderPosition.BEFOREEND)
+        });
+
+
+  };
 }

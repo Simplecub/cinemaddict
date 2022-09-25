@@ -18,7 +18,8 @@ export default class FilmPresenter {
   };
   #filmPopupSectionComponent = null;
   #siteBodyContainer = null;
-  constructor(filmsListContainer, siteBodyContainer, handleFilmOpenedPopup, boardViewHandle, movieModel) {
+  #commentsModel = null
+  constructor(filmsListContainer, siteBodyContainer, handleFilmOpenedPopup, boardViewHandle, movieModel, commentsModel) {
     this.#filmsListContainer = filmsListContainer;
 
     this.#siteBodyContainer = siteBodyContainer;
@@ -28,6 +29,8 @@ export default class FilmPresenter {
 
     this.#handleFilmOpenedPopup = handleFilmOpenedPopup;
     this.#boardViewHandle = boardViewHandle;
+
+    this.#commentsModel = commentsModel
   }
 
   init(film) {
@@ -46,7 +49,7 @@ export default class FilmPresenter {
     }
     this.#filmPopupSectionComponent = new FilmPopupSectionView();
     render(this.#filmPopupSectionComponent, this.#siteBodyContainer)
-    this.popupPresenter = new PopupPresenter(this.#filmPopupSectionComponent, this.handlePopupClose);
+    this.popupPresenter = new PopupPresenter(this.#filmPopupSectionComponent, this.#commentsModel, this.handlePopupClose);
 
     this.#boardViewHandle(this.#film);
 //remove()

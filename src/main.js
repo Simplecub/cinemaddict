@@ -8,6 +8,7 @@ import MenuNavigationModel from './model/menu-navigation-model';
 import BoardPresenter from './presenter/board-presenter';
 import CommentsModel from './model/comments-model';
 import CommentsApiService from './comments-api-service';
+import CommentsPresenter from './presenter/comments-presenter';
 
 const siteHeadEl = document.querySelector('.header');
 const siteFooterEl = document.querySelector('.footer__statistics')
@@ -21,8 +22,8 @@ const menuNavigationModel = new MenuNavigationModel()
 
 const menuNavigation = new MenuNavigationPresenter(siteMainEl, menuNavigationModel, moviesModel)
 
-const boardPresenter = new BoardPresenter(siteMainEl, siteHeadEl, siteFooterEl,siteBodyEl, menuNavigationModel, moviesModel) //передается элемент, куда рендерится и фильтр меню для подписки с помощью addObserver на изменения фильтра
-
+const boardPresenter = new BoardPresenter(siteMainEl, siteHeadEl, siteFooterEl,siteBodyEl, menuNavigationModel, moviesModel, commentsModel) //передается элемент, куда рендерится и фильтр меню для подписки с помощью addObserver на изменения фильтра
+//const commentsPresenter = new CommentsPresenter(commentsModel)
 moviesModel.init().then((res) => {
   console.log(`start main = ` + res.length);
  // render(new ProfileRatingView(res), siteHeadEl, RenderPosition.BEFOREEND); //рендер рейтинга в header

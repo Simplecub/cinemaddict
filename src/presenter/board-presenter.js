@@ -34,8 +34,8 @@ export default class BoardPresenter {
 
   #siteBodyContainer = null;
   isOpenPopup = null;
-
-  constructor(siteBoardEl, siteHeadEl, siteFooterEl, siteBodyEl, menuNavigation, moviesModel) {
+#commentsModel = null
+  constructor(siteBoardEl, siteHeadEl, siteFooterEl, siteBodyEl, menuNavigation, moviesModel, commentsModel) {
     this.#siteBoard = siteBoardEl;
     this.#menuNavigation = menuNavigation;
     //при смене фильтра в menu-navigation-view -> вызовет через колбэк в menu-navigation-presenter #handleMenuChange
@@ -44,6 +44,7 @@ export default class BoardPresenter {
     this.#menuNavigation.addObserver(this.#handleOnModelChange);
 
     this.#moviesModel = moviesModel;
+    this.#commentsModel = commentsModel
 
     this.#siteHeadContainer = siteHeadEl;
     this.#profileRatingComponent = new ProfileRatingView(this.#moviesModel.movies);
@@ -106,7 +107,7 @@ export default class BoardPresenter {
     console.log(this.isOpenPopup);
     console.log(movie.id);
     //  if (this.isOpenPopup && this.isOpenPopup !== movie.id)  {this.#moviePresenter.get(this.isOpenPopup).popupPresenter.removePopup()}
-    const moviePresenter = new FilmPresenter(this.#filmsListContainer, this.#siteBodyContainer, this.#handleFilmOpenedPopup, this.#boardViewHandle, this.#moviesModel);
+    const moviePresenter = new FilmPresenter(this.#filmsListContainer, this.#siteBodyContainer, this.#handleFilmOpenedPopup, this.#boardViewHandle, this.#moviesModel, this.#commentsModel);
     moviePresenter.init(movie);
     this.#moviePresenter.set(movie.id, moviePresenter); //записывает в коллекцию ключ и значение фильмов
   };

@@ -7,7 +7,7 @@ const getComment = () => {
   return
 }
 
-const getComments = () => {
+const getComments = (comments) => {
 
   return (`
    <div class="film-details__bottom-container">
@@ -104,11 +104,12 @@ const getComments = () => {
 }
 
 export default class FilmPopupCommentsView extends  AbstractStatefulView {
-
-constructor() {
+#comments = null
+constructor(comments) {
   super();
+  this._state = comments
 }
   get template() {
-    return getComments();
+    return getComments(this._state);
   }
 }
