@@ -3,10 +3,9 @@ import dayjs from 'dayjs';
 import {getCommentDate} from '../util';
 
 
-
 const getComment = (comments) => {
 
-  return comments.map((comment) =>(`
+  return comments.map((comment) => (`
    <li class="film-details__comment">
             <span class="film-details__comment-emoji">
               <img src="./images/emoji/${comment.emotion}.png" width="55" height="55" alt="emoji-smile">
@@ -20,8 +19,8 @@ const getComment = (comments) => {
               </p>
             </div>
           </li>
-  `)).join(' ')
-}
+  `)).join(' ');
+};
 
 const getComments = (comments) => {
 
@@ -35,7 +34,11 @@ const getComments = (comments) => {
         </ul>
 
         <form class="film-details__new-comment" action="" method="get">
-          <div class="film-details__add-emoji-label"></div>
+          <div class="film-details__add-emoji-label">
+
+<img src="./images/emoji/smile.png" width="55" height="55" alt="emoji">
+
+          </div>
 
           <label class="film-details__comment-label">
             <textarea class="film-details__comment-input" placeholder="Select reaction below and write comment here" name="comment"></textarea>
@@ -65,15 +68,17 @@ const getComments = (comments) => {
         </form>
       </section>
     </div>
-  `)
-}
+  `);
+};
 
-export default class FilmPopupCommentsSectionView extends  AbstractStatefulView {
-#comments = null
-constructor(comments) {
-  super();
-  this._state = comments
-}
+export default class FilmPopupCommentsSectionView extends AbstractStatefulView {
+  #comments = null;
+
+  constructor(comments) {
+    super();
+    this._state = comments;
+  }
+
   get template() {
     return getComments(this._state);
   }
