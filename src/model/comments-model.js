@@ -12,12 +12,14 @@ export default class CommentsModel extends Observable {
   init = async (id) => {
     try {
       const comments = await this.#commentsAPIService.comments(id);
-      return this.#comments = comments.map(this.#adaptToClient(comment))
+      return comments
+     // return this.#comments = comments.map(this.#adaptToClient)
     }catch (err) {
       this.#comments = []
     }
   }
   #adaptToClient = (comment) => {
+    console.log(comment)
     const  adaptedComment = {...comment,
       id: comment['id'],
       author: comment['author'],
@@ -30,6 +32,7 @@ delete adaptedComment['id'];
     delete adaptedComment['emotion'];
     delete adaptedComment['comment'];
     delete adaptedComment['date'];
+    console.log(adaptedComment)
 return adaptedComment
 
   }

@@ -5,7 +5,7 @@ import {render, createElement, RenderPosition, remove} from '../framework/render
 import {MODE_POPUP} from '../const';
 import CommentsPresenter from './comments-presenter';
 import CommentsModel from '../model/comments-model';
-import FilmPopupCommentsView from '../view/film-popup-comments-view';
+import FilmPopupCommentsSectionView from '../view/film-popup-comments-section-view';
 
 export default class PopupPresenter {
   #filmPopupSectionComponent = null;
@@ -66,7 +66,8 @@ export default class PopupPresenter {
 
       this.#commentsPresenter.init(movie)
         .then((comments) => {
-          this.#commentsComponent = new FilmPopupCommentsView(comments)
+          console.log(comments)
+          this.#commentsComponent = new FilmPopupCommentsSectionView(comments)
           render(this.#commentsComponent, this.#filmPopupSectionComponent.element, RenderPosition.BEFOREEND)
         });
 

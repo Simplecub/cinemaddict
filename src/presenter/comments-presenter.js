@@ -13,8 +13,8 @@ export default class CommentsPresenter {
 
   init = async (movie) =>{
     try {
-      this.#comments = await this.#commentsModel.init(movie.id)
-      console.log(this.#comments)
+     return await this.#commentsModel.init(movie.id)
+
     } catch (err) {
       this.#comments = []
       console.log('no get -comments')
