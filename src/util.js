@@ -17,11 +17,17 @@ const sortMovieToDate = (movieA, movieB) => {
 
 
 const getCommentDate = (date) => {
-  const diffDate = dayjs(dayjs(date).diff(dayjs().toDate())).format('DD')
-if (+diffDate === 0 ){ return 'Today'}
-if (+diffDate === 1) {return '1 day ago'}
-  if (+diffDate === 2) {return '2 days ago'}
-  else
-return dayjs(date).format('YYYY/MM/DD HH:mm')
-}
+  const diffDate = dayjs(dayjs(date).diff(dayjs().toDate())).format('DD');
+  if (+diffDate === 0) {
+    return 'Today';
+  }
+  if (+diffDate === 1) {
+    return '1 day ago';
+  }
+  if (+diffDate === 2) {
+    return '2 days ago';
+  } else {
+    return dayjs(date).format('YYYY/MM/DD HH:mm');
+  }
+};
 export {humanizeTime, sortMovieToRate, sortMovieToDate, getCommentDate};

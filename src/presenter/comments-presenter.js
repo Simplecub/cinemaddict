@@ -13,7 +13,7 @@ export default class CommentsPresenter {
 
   init = async (movie) =>{
     try {
-     return await this.#commentsModel.init(movie.id)
+     return await this.#commentsModel.init(movie)
 
     } catch (err) {
       this.#comments = []

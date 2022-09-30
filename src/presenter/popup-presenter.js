@@ -18,7 +18,8 @@ export default class PopupPresenter {
   #movieModel = null;
   #commentsPresenter = null;
   #commentsModel = null;
-  #commentsComponent = null
+  #commentsComponent = null;
+  #movie = null
 
   constructor(filmPopupSectionComponent, commentsModel, handlePopupMode) {
     this.#filmPopupSectionComponent = filmPopupSectionComponent;
@@ -31,6 +32,7 @@ export default class PopupPresenter {
   }
 
   init(movie) {
+    this.#movie = movie
     if (this.#filmPopupComponent) {
       remove(this.#filmPopupSectionComponent);
     }
@@ -62,14 +64,19 @@ export default class PopupPresenter {
    */
 
 
-  #renderComments =  (movie) => {
+  #renderComments = (movie) => {
+    this.#commentsPresenter.init(movie)
+      .then((comments) => {
+        console.log(comments);
+        this.#commentsComponent = new FilmPopupCommentsSectionView(comments);
+        this.#commentsComponent.setDeleteCommentHandler(this.#handleDeleteComment);
+        render(this.#commentsComponent, this.#filmPopupSectionComponent.element, RenderPosition.BEFOREEND);
+      });
 
-      this.#commentsPresenter.init(movie)
-        .then((comments) => {
-          console.log(comments)
-          this.#commentsComponent = new FilmPopupCommentsSectionView(comments)
-          render(this.#commentsComponent, this.#filmPopupSectionComponent.element, RenderPosition.BEFOREEND)
-        });
+  };
+
+  #handleDeleteComment = (movie) => {
+    console.log(this.#movie);
 
 
   };

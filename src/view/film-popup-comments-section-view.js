@@ -15,7 +15,7 @@ const getComment = (comments) => {
               <p class="film-details__comment-info">
                 <span class="film-details__comment-author">${comment.author}</span>
                 <span class="film-details__comment-day">${getCommentDate(comment.date)}</span>
-                <button class="film-details__comment-delete">Delete</button>
+                <button class="film-details__comment-delete" id="${comment.id}" >Delete</button>
               </p>
             </div>
           </li>
@@ -82,4 +82,17 @@ export default class FilmPopupCommentsSectionView extends AbstractStatefulView {
   get template() {
     return getComments(this._state);
   }
+setDeleteCommentHandler = (callback) => {
+    this._callback.deleteComment = callback;
+    this.element.querySelectorAll('.film-details__comment-delete').forEach((el)=>{
+      el.addEventListener('click', this.#deleteCommentHandler)
+      }
+    )
+}
+#deleteCommentHandler = (evt) => {
+    evt.preventDefault();
+  this._callback.deleteComment()
+    console.log(evt.target.id)
+}
+
 }
