@@ -5,7 +5,7 @@ import {render, createElement, RenderPosition, remove} from '../framework/render
 import {MODE_POPUP} from '../const';
 import CommentsPresenter from './comments-presenter';
 import CommentsModel from '../model/comments-model';
-import FilmPopupCommentsSectionView from '../view/film-popup-comments-section-view';
+import FilmPopupCommentsPublishedView from '../view/film-popup-comments-published-view';
 
 export default class PopupPresenter {
   #filmPopupSectionComponent = null;
@@ -66,18 +66,21 @@ export default class PopupPresenter {
 
   #renderComments = (movie) => {
     this.#commentsPresenter.init(movie)
+      /*
       .then((comments) => {
         console.log(comments);
-        this.#commentsComponent = new FilmPopupCommentsSectionView(comments);
+     //   this.#commentsComponent = new FilmPopupCommentsPublishedView(comments);
         this.#commentsComponent.setDeleteCommentHandler(this.#handleDeleteComment);
+        this.#commentsComponent.setSelectedEmoji()
         render(this.#commentsComponent, this.#filmPopupSectionComponent.element, RenderPosition.BEFOREEND);
       });
 
+       */
   };
 
-  #handleDeleteComment = (movie) => {
-    console.log(this.#movie);
-
-
+  #handleDeleteComment = (id) => {
+    console.log(`need delete comment ${id}`);
   };
+
+
 }
