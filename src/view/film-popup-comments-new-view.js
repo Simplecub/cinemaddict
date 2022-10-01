@@ -1,18 +1,19 @@
 import AbstractStatefulView from '../framework/view/abstract-stateful-view';
+import {getDebounce} from '../util';
 
 
-const getSendCommentForm = () => {
-
+const getSendCommentForm = (state) => {
+  const {emotion, comment} = state
+const selectedEmotion = emotion ? `<img src="./images/emoji/${emotion}.png" width="55" height="55" alt="emoji">` : '';
+  const inputText = comment ? comment : ''
   return(`
    <form class="film-details__new-comment" action="" method="get">
           <div class="film-details__add-emoji-label">
-
-<img src="./images/emoji/smile.png" width="55" height="55" alt="emoji">
-
+${selectedEmotion}
           </div>
 
           <label class="film-details__comment-label">
-            <textarea class="film-details__comment-input" placeholder="Select reaction below and write comment here" name="comment"></textarea>
+            <textarea class="film-details__comment-input" placeholder="Select reaction below and write comment here" name="comment">${inputText}</textarea>
           </label>
 
           <div class="film-details__emoji-list">
@@ -44,24 +45,33 @@ export default class FilmPopupCommentsNewView extends AbstractStatefulView {
 
   constructor() {
     super();
+    this._state = []
+    this.#setInnerHandlers()
   }
 
   get template() {
-    return getSendCommentForm();
+    return getSendCommentForm(this._state);
   }
-  setSelectedEmoji = (callback) =>{
-    this._callback.emoji = callback
+  #setInnerHandlers = () =>{
+
     this.element.querySelectorAll('.film-details__emoji-item').forEach((el)=> {
       el.addEventListener('click', this.#selectedEmoji)
     })
+    this.element.querySelector('.film-details__comment-input').addEventListener('input',getDebounce(this.#addTextInput,500) )
   }
 
   #selectedEmoji = (evt) => {
-    evt.preventDefault();
-    this._callback.emoji()
+   this.updateElement({emotion: evt.target.value})
     console.log(evt.target.value)
   }
+#addTextInput = (evt) => {
+this.updateElement({comment: evt.target.value})
+console.log(this._state)
+}
+_restoreHandlers = () => {
+  this.#setInnerHandlers()
 
+  }
 
 
 }

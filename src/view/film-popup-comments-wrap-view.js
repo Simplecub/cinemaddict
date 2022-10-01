@@ -20,6 +20,6 @@ export default class FilmPopupCommentsWrapView extends AbstractStatefulView {
   }
 
   get template() {
-    return getCommentsWrap(this.#comments );
+    return getCommentsWrap(this.#comments);
   }
 }

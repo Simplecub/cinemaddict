@@ -30,4 +30,13 @@ const getCommentDate = (date) => {
     return dayjs(date).format('YYYY/MM/DD HH:mm');
   }
 };
-export {humanizeTime, sortMovieToRate, sortMovieToDate, getCommentDate};
+
+//функция обновление списка элементов, подходящих под фильтры, -  не чаще, чем один раз в полсекунды.
+const getDebounce = (callback, timeoutDelay) => {
+  let timeoutId;
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+};
+export {humanizeTime, sortMovieToRate, sortMovieToDate, getCommentDate, getDebounce};

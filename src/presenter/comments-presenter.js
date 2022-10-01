@@ -43,7 +43,7 @@ this.#getComments(movie)
     render(this.#commentsWrap, this.#commentsContainer.element, RenderPosition.AFTERBEGIN) // render in div
     render(this.#commentsContainer, this.#filmPopupContainerComponent.element, RenderPosition.BEFOREEND) //render in section after details
     this.#commentsComponent.setDeleteCommentHandler(this.#handleDeleteComment);
-  //  this.#commentsComponent.setSelectedEmoji()
+  //  this.#commentsComponent.setSelectedEmoji(this.#handleSelectedEmoji)
   }
 
     #handleDeleteComment = (id) => {
@@ -52,5 +52,9 @@ this.#getComments(movie)
 
   #renderNewCommentTemplate = () => {
 render(this.#newCommentComponent,  this.#commentsWrap.element, RenderPosition.BEFOREEND)
+   // this.#newCommentComponent.setSelectedEmoji(this.#handleSelectedEmoji)
+  }
+  #handleSelectedEmoji = () => {
+    console.log('set emoji')
   }
 }
