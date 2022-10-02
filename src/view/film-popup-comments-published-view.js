@@ -1,6 +1,7 @@
 import AbstractStatefulView from '../framework/view/abstract-stateful-view';
 import dayjs from 'dayjs';
 import {getCommentDate} from '../util';
+import AbstractView from '../framework/view/abstract-view';
 
 
 const getComment = (comments) => {
@@ -34,7 +35,7 @@ const getComments = (comments) => {
   `);
 };
 
-export default class FilmPopupCommentsPublishedView extends AbstractStatefulView {
+export default class FilmPopupCommentsPublishedView extends AbstractView {
   #comments = null;
 
   constructor(comments) {

@@ -52,9 +52,14 @@ this.#getComments(movie)
 
   #renderNewCommentTemplate = () => {
 render(this.#newCommentComponent,  this.#commentsWrap.element, RenderPosition.BEFOREEND)
+    this.#newCommentComponent.setSubmitHandler(this.#handleSubmit)
    // this.#newCommentComponent.setSelectedEmoji(this.#handleSelectedEmoji)
   }
-  #handleSelectedEmoji = () => {
-    console.log('set emoji')
+  #handleSubmit = (newComment) => {
+    if (!newComment.emotion || !newComment.comment) {
+      this.#commentsComponent.shake()
+      console.log('no input')
+    } else
+    console.log(newComment)
   }
 }

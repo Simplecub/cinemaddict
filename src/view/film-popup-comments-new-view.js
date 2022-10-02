@@ -3,10 +3,10 @@ import {getDebounce} from '../util';
 
 
 const getSendCommentForm = (state) => {
-  const {emotion, comment} = state
-const selectedEmotion = emotion ? `<img src="./images/emoji/${emotion}.png" width="55" height="55" alt="emoji">` : '';
-  const inputText = comment ? comment : ''
-  return(`
+  const {emotion, comment} = state;
+  const selectedEmotion = emotion ? `<img src="./images/emoji/${emotion}.png" width="55" height="55" alt="emoji">` : '';
+  const inputText = comment ? comment : '';
+  return (`
    <form class="film-details__new-comment" action="" method="get">
           <div class="film-details__add-emoji-label">
 ${selectedEmotion}
@@ -38,40 +38,55 @@ ${selectedEmotion}
             </label>
           </div>
         </form>
-  `)
-}
+  `);
+};
 
 export default class FilmPopupCommentsNewView extends AbstractStatefulView {
 
   constructor() {
     super();
-    this._state = []
-    this.#setInnerHandlers()
+    this._state = [];
+    this.#setInnerHandlers();
   }
 
   get template() {
     return getSendCommentForm(this._state);
   }
-  #setInnerHandlers = () =>{
 
-    this.element.querySelectorAll('.film-details__emoji-item').forEach((el)=> {
-      el.addEventListener('click', this.#selectedEmoji)
-    })
-    this.element.querySelector('.film-details__comment-input').addEventListener('input',getDebounce(this.#addTextInput,500) )
-  }
+  #setInnerHandlers = () => {
+    this.element.querySelectorAll('.film-details__emoji-item').forEach((el) => {
+      el.addEventListener('click', this.#selectedEmoji);
+    });
+    this.element.querySelector('.film-details__comment-input').addEventListener('input', getDebounce(this.#addTextInput, 500));
+  };
 
   #selectedEmoji = (evt) => {
-   this.updateElement({emotion: evt.target.value})
-    console.log(evt.target.value)
+    this.updateElement({emotion: evt.target.value});
+    console.log(evt.target.value);
+  };
+  #addTextInput = (evt) => {
+    this._setState({comment: evt.target.value});
+    console.log(this._state);
+  };
+
+  _restoreHandlers = () => {
+    this.#setInnerHandlers();
+    this.setSubmitHandler(this._callback.submit)
+  };
+
+  setSubmitHandler = (callback) =>{
+    this._callback.submit = callback
+    this.element.addEventListener('keydown', this.#submitHandler)
   }
-#addTextInput = (evt) => {
-this.updateElement({comment: evt.target.value})
-console.log(this._state)
+
+  #submitHandler = (evt) => {
+    if (evt.key === 'Enter') {
+    //  console.log(evt.key)
+
+      this._callback.submit(this._state)
+
+      this.updateElement([])
+    }
 }
-_restoreHandlers = () => {
-  this.#setInnerHandlers()
-
-  }
-
 
 }
