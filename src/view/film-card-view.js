@@ -36,11 +36,11 @@ export default class FilmCardView extends AbstractStatefulView {
 
   constructor(film) {
     super();
-    this.#film = film
+    this._state = film
   }
 
   get template() {
-    return getFilmCard(this.#film)
+    return getFilmCard(this._state)
   }
 
   setHandleOpenPopup = (callback) => {
@@ -54,6 +54,13 @@ export default class FilmCardView extends AbstractStatefulView {
       console.log(evt.target.type)
     }
   }
-  
+  setHandleWatchlist = (callback) => {
+  this._callback.watchlist = callback
+  this.element.querySelector('.film-card__controls-item--add-to-watchlist').addEventListener('click', this.#watchlistHandler)
+}
+  #watchlistHandler = (evt) => {
+  evt.preventDefault()
+    this._setState({userDetails:{watchlist: !this.watchlist}})
 
+  }
 }
